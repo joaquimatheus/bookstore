@@ -21,6 +21,7 @@
 -- orders
 -- order_payments
 -- custormers
+-- (CREATE EXTENSION "uuid-ossp";)
 
 CREATE SEQUENCE seq_authors;
 CREATE TABLE authors (
@@ -101,4 +102,59 @@ CREATE TABLE products (
     isbn13 BIGINT CONSTRAINT uq_isbn13 UNIQUE,
 
     isbn10 BIGINT CONSTRAINT uq_isbn10 UNIQUE
+);
+
+CREATE SEQUENCE seq_product_stock;
+CREATE TABLE product_stock (
+    id INT NOT NULL
+        CONSTRAINT pk_products_stock
+        PRIMARY KEY DEFAULT NEXTVAL('seq_product_stock'),
+
+    code TEXT NOT NULL CONSTRAINT uq_code UNIQUE,
+
+    product_id INT NOT NULL
+        CONSTRAINT fk_product_id
+        REFERENCES products(id)
+);
+ALTER SEQUENCE seq_product_stock OWNED BY product_stock.id;
+
+CREATE SEQUENCE seq_customers;
+CREATE TABLE customers (
+    id INT NOT NULL
+        CONSTRAINT pk_customers_id
+        PRIMARY KEY DEFAULT NEXTVAL('seq_customers'),
+
+    addresss TEXT NOT NULL,
+
+    address2 TEXT,
+
+    district TEXT NOT NULL,
+
+    city TEXT NOT NULL,
+
+    postal_code TEXT NOT NULL,
+
+    phone TEXT NOT NULL
+);
+ALTER SEQUENCE seq_customers OWNED BY customers.id;
+
+CREATE TABLE orders (
+    -- id uuid DEFAULT gen_random_uuid() PRIMARY KEY (the function doesn't
+    -- work in postgres version 12 only in 13.
+
+    customer_id INT NOT NULL
+        CONSTRAINT fk_customer_id
+        REFERENCES customers(id),
+
+    address TEXT NOT NULL,
+
+    address2 TEXT,
+
+    district TEXT NOT NULL,
+
+    city TEXT NOT NULL,
+
+    postal_code TEXT NOT NULL,
+
+    phone TEXT NOT NULL
 );
