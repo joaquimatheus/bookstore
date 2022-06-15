@@ -68,6 +68,10 @@ CREATE TABLE ISBN (
         CONSTRAINT pk_isbn
         PRIMARY KEY DEFAULT nextval('seq_isbn'),
 
+    product_id
+        CONSTRAINT fk_product_id
+        REFERENCES products(id)
+
     isbn13 BIGINT CONSTRAINT uq_isbn13 UNIQUE,
 
     isbn10 BIGINT CONSTRAINT uq_isbn10 UNIQUE
