@@ -158,3 +158,49 @@ CREATE TABLE orders (
 
     phone TEXT NOT NULL
 );
+
+CREATE SEQUENCE seq_order_payments;
+CREATE TABLE order_payments (
+    id INT NOT NULL
+        CONSTRAINT pk_order_payments
+        PRIMARY KEY DEFAULT NEXTVAL('seq_order_payments'),
+
+    -- order_id INT NOT NULL
+    --    CONSTRAINT fk_order_id
+    --    REFERENCES orders(id)
+
+    status TEXT NOT NULL,
+
+    payment_method TEXT NOT NULL
+);
+ALTER SEQUENCE seq_order_payments OWNED by order_payments.id;
+
+CREATE SEQUENCE seq_order_products;
+CREATE TABLE order_products (
+    id INT NOT NULL
+        CONSTRAINT pk_order_products
+        PRIMARY KEY DEFAULT NEXTVAL('seq_order_products'),
+
+    product_id INT NOT NULL
+        CONSTRAINT fk_product_id
+        REFERENCES products(id),
+
+    product_stock_id INT NOT NULL
+        CONSTRAINT fk_product_stock_id
+        REFERENCES product_stock(id)
+);
+ALTER SEQUENCE seq_order_products OWNED by order_products.id;
+
+CREATE SEQUENCE seq_product_images;
+CREATE TABLE product_images (
+    id INT NOT NULL
+        CONSTRAINT pk_product_images
+        PRIMARY KEY DEFAULT NEXTVAL('seq_product_images'),
+
+    product_id INT NOT NULL
+        CONSTRAINT fk_product_id
+        REFERENCES products(id),
+
+    ima_url_path TEXT NOT NULL
+);
+ALTER SEQUENCE seq_product_images OWNED by product_images.id
