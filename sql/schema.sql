@@ -62,23 +62,6 @@ CREATE TABLE categories (
 );
 ALTER SEQUENCE seq_categories OWNED BY categories.id;
 
-CREATE SEQUENCE seq_isbn;
-CREATE TABLE ISBN (
-    id INT NOT NULL
-        CONSTRAINT pk_isbn
-        PRIMARY KEY DEFAULT nextval('seq_isbn'),
-
-    product_id
-        CONSTRAINT fk_product_id
-        REFERENCES products(id)
-
-    isbn13 BIGINT CONSTRAINT uq_isbn13 UNIQUE,
-
-    isbn10 BIGINT CONSTRAINT uq_isbn10 UNIQUE
-
-);
-ALTER SEQUENCE seq_isbn OWNED BY ISBN.id;
-
 CREATE SEQUENCE seq_products;
 CREATE TABLE products (
     id INT NOT NULL
@@ -115,11 +98,7 @@ CREATE TABLE products (
 
     link TEXT CONSTRAINT uq_link UNIQUE,
 
-    isbn13 BIGINT
-        CONSTRAINT fk_isbn13
-        REFERENCES ISBN(isbn13),
+    isbn13 BIGINT CONSTRAINT uq_isbn13 UNIQUE,
 
-    isbn10 BIGINT
-        CONSTRAINT fk_isbn10
-        REFERENCES ISBN(isbn10)
+    isbn10 BIGINT CONSTRAINT uq_isbn10 UNIQUE
 );
