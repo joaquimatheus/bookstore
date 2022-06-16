@@ -29,7 +29,12 @@ CREATE TABLE authors (
         CONSTRAINT pk_authors
         PRIMARY KEY DEFAULT nextval('seq_authors'),
 
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+
+    description TEXT NOT NULL,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_authors_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_authors OWNED BY authors.id;
 
@@ -39,7 +44,12 @@ CREATE TABLE translators (
         CONSTRAINT pk_translators
         PRIMARY KEY DEFAULT nextval('seq_translators'),
 
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+
+    description TEXT NOT NULL,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_translators_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_translators OWNED BY translators.id;
 
@@ -49,7 +59,12 @@ CREATE TABLE publishers (
         CONSTRAINT pk_publishers
         PRIMARY KEY DEFAULT nextval('seq_publishers'),
 
-    name TEXT NOT NULL CONSTRAINT uq_categories_name UNIQUE
+    name TEXT NOT NULL CONSTRAINT uq_categories_name UNIQUE,
+
+    description TEXT NOT NULL,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_publishers_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_publishers OWNED BY publishers.id;
 
@@ -59,7 +74,10 @@ CREATE TABLE categories (
         CONSTRAINT pk_categories
         PRIMARY KEY DEFAULT nextval('seq_categories'),
 
-    name TEXT NOT NULL CONSTRAINT uq_catogories_name UNIQUE
+    name TEXT NOT NULL CONSTRAINT uq_catogories_name UNIQUE,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_categories_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_categories OWNED BY categories.id;
 
@@ -101,7 +119,10 @@ CREATE TABLE products (
 
     isbn13 BIGINT CONSTRAINT uq_isbn13 UNIQUE,
 
-    isbn10 BIGINT CONSTRAINT uq_isbn10 UNIQUE
+    isbn10 BIGINT CONSTRAINT uq_isbn10 UNIQUE,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_products_utc_created_on DEFAULT(now())
 );
 
 CREATE SEQUENCE seq_product_stock;
@@ -114,7 +135,10 @@ CREATE TABLE product_stock (
 
     product_id INT NOT NULL
         CONSTRAINT fk_product_id
-        REFERENCES products(id)
+        REFERENCES products(id),
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_products_stock_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_product_stock OWNED BY product_stock.id;
 
@@ -134,13 +158,17 @@ CREATE TABLE customers (
 
     postal_code TEXT NOT NULL,
 
-    phone TEXT NOT NULL
+    phone TEXT NOT NULL,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_customers_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_customers OWNED BY customers.id;
 
 CREATE TABLE orders (
-    -- id uuid DEFAULT gen_random_uuid() PRIMARY KEY (the function doesn't
-    -- work in postgres version 12 only in 13.
+    id uuid DEFAULT gen_random_uuid()
+        CONSTRAINT pk_orders
+        PRIMARY KEY,
 
     customer_id INT NOT NULL
         CONSTRAINT fk_customer_id
@@ -156,7 +184,10 @@ CREATE TABLE orders (
 
     postal_code TEXT NOT NULL,
 
-    phone TEXT NOT NULL
+    phone TEXT NOT NULL,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_orders_utc_created_on DEFAULT(now())
 );
 
 CREATE SEQUENCE seq_order_payments;
@@ -165,13 +196,16 @@ CREATE TABLE order_payments (
         CONSTRAINT pk_order_payments
         PRIMARY KEY DEFAULT NEXTVAL('seq_order_payments'),
 
-    -- order_id INT NOT NULL
-    --    CONSTRAINT fk_order_id
-    --    REFERENCES orders(id)
+    order_id INT NOT NULL
+        CONSTRAINT fk_order_id
+        REFERENCES orders(id),
 
     status TEXT NOT NULL,
 
-    payment_method TEXT NOT NULL
+    payment_method TEXT NOT NULL,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_orders_payments_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_order_payments OWNED by order_payments.id;
 
@@ -187,7 +221,10 @@ CREATE TABLE order_products (
 
     product_stock_id INT NOT NULL
         CONSTRAINT fk_product_stock_id
-        REFERENCES product_stock(id)
+        REFERENCES product_stock(id),
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_orders_products_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_order_products OWNED by order_products.id;
 
@@ -201,6 +238,9 @@ CREATE TABLE product_images (
         CONSTRAINT fk_product_id
         REFERENCES products(id),
 
-    ima_url_path TEXT NOT NULL
+    img_url_path TEXT NOT NULL,
+
+    utc_created_on TIMESTAMP NOT NULL
+        CONSTRAINT df_products_images_utc_created_on DEFAULT(now())
 );
 ALTER SEQUENCE seq_product_images OWNED by product_images.id
