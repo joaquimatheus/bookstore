@@ -1,4 +1,8 @@
-const express = require('express')
+const express = require('express');
 const app = express();
 
-app.listen(3333)
+
+require('./routes')(app);
+app.listen(3333, () => {
+    console.log('Is running ya');
+})
