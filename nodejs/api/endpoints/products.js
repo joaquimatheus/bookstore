@@ -1,5 +1,5 @@
 const bodyParser = require('body-parser');
-const Categories = require('../../db/models/Categories')
+const Categories = require('../../core/models/Categories')
 
 module.exports = function(app) {
     app.post('/categories', 
@@ -17,5 +17,11 @@ module.exports = function(app) {
                 name,
                 description
             })
+
+            if(categorie) {
+                return res.status(200).json({
+                    msg: "Category created successfully"
+                })
+            }
     });
 }
