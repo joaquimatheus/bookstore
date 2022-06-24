@@ -1,5 +1,8 @@
 const bodyParser = require('body-parser');
-const Categories = require('../../db/models/Categories')
+const Categories = require('../../core/models/Categories');
+const Translators = require('../../core/models/Translators');
+const Authors = require('../../core/models/Authors');
+const Publishers = require('../../core/models/Publishers')
 
 module.exports = function(app) {
     app.post('/categories', 
@@ -16,6 +19,81 @@ module.exports = function(app) {
             const categorie = await Categories.create({
                 name,
                 description
-            })
+            });
+
+            if(categorie) {
+                return res.status(200).json({
+                    msg: "Category created successfully"
+                })
+            }
     });
+
+    app.post('/translators', 
+        bodyParser.json(),
+        async function(req, res) {
+            const { name, description } = req.body;
+
+            if (!name || !description) {
+                return res.status(400).json({
+                    msg: 'Missing parameters'
+                });
+            }
+
+            const translator = await Authors.create({
+                name,
+                description
+            });
+
+            if(translator) {
+                return res.status(400).json({
+                    msg: "Translators created successfully"
+                });
+            }
+        });
+
+    app.post('/authors', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { name, description } = req.body;
+
+            if (!name || !description) {
+                return res.status(400).json({
+                    msg: 'Missing parameters'
+                });
+            }
+
+            const author = await Authors.create({
+                name,
+                description
+            });
+
+            if(author) {
+                return res.status(400).json({
+                    msg: "Authors created successfully"
+                });
+            }
+        });
+
+    app.post('/publishers', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { name, description } = req.body
+
+            if(!name || !description) {
+                return res.status(400).json({
+                    msg: 'Missing parameters'
+                });
+            }
+
+            const publisher = await Publishers.create({
+                name,
+                description
+            });
+
+            if(publisher) {
+                return res.status(400).json({
+                    msg: "Authors created successfully"
+                });
+            }
+        })
 }
