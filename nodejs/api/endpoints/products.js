@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const Categories = require('../../core/models/Categories');
 const Translators = require('../../core/models/Translators');
 const Authors = require('../../core/models/Authors');
+const Publishers = require('../../core/models/Publishers')
 
 module.exports = function(app) {
     app.post('/categories', 
@@ -50,7 +51,7 @@ module.exports = function(app) {
             }
         });
 
-    app.post('authors', 
+    app.post('/authors', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body;
@@ -67,6 +68,29 @@ module.exports = function(app) {
             });
 
             if(author) {
+                return res.status(400).json({
+                    msg: "Authors created successfully"
+                });
+            }
+        });
+
+    app.post('/publishers', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { name, description } = req.body
+
+            if(!name || !description) {
+                return res.status(400).json({
+                    msg: 'Missing parameters'
+                });
+            }
+
+            const publisher = await Publishers.create({
+                name,
+                description
+            });
+
+            if(publisher) {
                 return res.status(400).json({
                     msg: "Authors created successfully"
                 });
