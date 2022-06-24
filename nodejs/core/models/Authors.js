@@ -29,8 +29,8 @@ Authors.init({
     }
 }, {
     sequelize,
-    modelName: 'translators',
+    modelName: 'authors',
     timestamps: true
 });
 
-module.exports = Translators;
+module.exports = Authors;
