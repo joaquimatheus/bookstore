@@ -40,13 +40,13 @@ module.exports = function(app) {
                 });
             }
 
-            const translator = await Authors.create({
+            const translator = await Translators.create({
                 name,
                 description
             });
 
             if(translator) {
-                return res.status(400).json({
+                return res.status(200).json({
                     msg: "Translators created successfully"
                 });
             }
@@ -69,7 +69,7 @@ module.exports = function(app) {
             });
 
             if(author) {
-                return res.status(400).json({
+                return res.status(200).json({
                     msg: "Authors created successfully"
                 });
             }
@@ -92,7 +92,7 @@ module.exports = function(app) {
             });
 
             if(publisher) {
-                return res.status(400).json({
+                return res.status(200).json({
                     msg: "Authors created successfully"
                 });
             }
