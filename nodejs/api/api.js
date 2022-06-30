@@ -32,5 +32,7 @@ app.use((req, res, next) => {
 
 require('./routes')(app);
 app.listen(HTTP_PORT, () => {
+
     console.log(`[api] is running in http://localhost:${HTTP_PORT}`);
+
 }).on('error', fatalHandler);
