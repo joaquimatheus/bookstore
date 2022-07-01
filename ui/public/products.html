@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Create Products</title>
+    </head>
+    <body>
+        <main>
+            <form>
+                <h3>Create a new Product Book</h3>
+                <label>Name:</label>
+                <input
+                    id="name_book"
+                    type="text"
+                    placeholder="name"
+                    name="name"
+                    required
+                />
+                <label>Description</label>
+                <textarea
+                    id="description_book"
+                    required
+                    placeholder="description"
+                ></textarea>
+                <label>Categorie</label>
+                <select id="categories" required>
+                    <option value="" disabled selected>
+                        Choice the categorie
+                    </option>
+                </select>
+                <label>Author</label>
+                <select id="author" required>
+                    <option value="" disabled selected>
+                        Choice the Author
+                    </option>
+                </select>
+                <select id="translator" required>
+                    <option value="" disabled selected>
+                        Choice the Translator
+                    </option>
+                </select>
+                <select id="publisher" required>
+                    <option value="" disabled selected>
+                        Choice the Publisher
+                    </option>
+                </select>
+                <label>Number of pages</label>
+                <input
+                    id="number_pages"
+                    type="number"
+                    name="pages"
+                    required
+                    placeholder="number of pages"
+                />
+                <label>Language</label>
+                <input
+                    id="language"
+                    type="text"
+                    name="language"
+                    required
+                    placeholder="language"
+                />
+                <label>Price</label>
+                <input
+                    type="number"
+                    name="price"
+                    min="0.00"
+                    max="10000.00"
+                    step="0.01"
+                    required
+                />
+                <label>ISBN10</label>
+                <input type="number" placeholder="isbn10" name="isbn10" />
+                <label>ISBN13</label>
+                <input type="number" placeholder="isbn13" name="isbn13" />
+            </form>
+        </main>
+    </body>
+</html>
