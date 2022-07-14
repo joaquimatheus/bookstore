@@ -6,7 +6,7 @@ const Publishers = require('../../core/models/Publishers');
 const Products = require('../../core/models/Products');
 
 module.exports = function(app) {
-    app.post('/create/categories', 
+    app.post('/api/v1/categories', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body;
@@ -29,7 +29,7 @@ module.exports = function(app) {
             }
     });
 
-    app.post('/create/Translators', 
+    app.post('/api/v1/translators', 
         bodyParser.json(),
         async function(req, res) {
             const { name, description } = req.body;
@@ -52,7 +52,7 @@ module.exports = function(app) {
             }
         });
 
-    app.post('/create/authors', 
+    app.post('/api/v1/authors', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body;
@@ -75,7 +75,7 @@ module.exports = function(app) {
             }
         });
 
-    app.post('/create/publishers', 
+    app.post('/api/v1/publishers', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body
@@ -98,7 +98,7 @@ module.exports = function(app) {
             }
         })
 
-    app.post('/create/products', 
+    app.post('/api/v1/products', 
         bodyParser.json(),
         async function(req, res) {
             /*
@@ -133,7 +133,7 @@ module.exports = function(app) {
         }
     )
 
-    app.get('/get/categories', 
+    app.get('/api/v1/categories', 
         bodyParser.json(), 
         async function(req, res) {
             const categories = new Categories();
@@ -147,7 +147,7 @@ module.exports = function(app) {
         }
     )
 
-    app.get('/get/authors',
+    app.get('/api/v1/authors',
         bodyParser.json(),
         async function(req, res) {
             const authors = new Authors()
@@ -161,7 +161,7 @@ module.exports = function(app) {
         }
     )
 
-    app.get('/get/publishers', 
+    app.get('/api/v1/publishers', 
         bodyParser.json(), 
         async function(req, res) {
             const publishers = new Publishers();
@@ -175,7 +175,7 @@ module.exports = function(app) {
         }
     )
 
-    app.get('/get/translators', 
+    app.get('/api/v1/translators', 
         bodyParser.json(), 
         async function(req, res) {
             const translators = new Translators()
