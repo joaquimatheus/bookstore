@@ -6,7 +6,7 @@ const Publishers = require('../../core/models/Publishers');
 const Products = require('../../core/models/Products');
 
 module.exports = function(app) {
-    app.post('/categories', 
+    app.post('/create/categories', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body;
@@ -29,7 +29,7 @@ module.exports = function(app) {
             }
     });
 
-    app.post('/translators', 
+    app.post('/create/Translators', 
         bodyParser.json(),
         async function(req, res) {
             const { name, description } = req.body;
@@ -52,7 +52,7 @@ module.exports = function(app) {
             }
         });
 
-    app.post('/authors', 
+    app.post('/create/authors', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body;
@@ -75,7 +75,7 @@ module.exports = function(app) {
             }
         });
 
-    app.post('/publishers', 
+    app.post('/create/publishers', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body
@@ -98,7 +98,7 @@ module.exports = function(app) {
             }
         })
 
-    app.post('/products', 
+    app.post('/create/products', 
         bodyParser.json(),
         async function(req, res) {
             /*
