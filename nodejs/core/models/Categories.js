@@ -11,8 +11,17 @@ const sequelize = new Sequelize(
 )
 
 class Categories extends Model {
-    returnAllCategories() {
-        return this.name
+    async getNamesAndIds() {
+        let data = await Categories.findAll({ attributes: ['id', 'name'] })
+        if (!data) { throw new Error(`Error nothing of Categories was return`)}
+
+        const categories = data.map((values) => {
+            let dataValues = values.dataValues;
+
+            return dataValues;
+        })
+
+        return categories;
     }
 }
 

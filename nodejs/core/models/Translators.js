@@ -10,7 +10,20 @@ const sequelize = new Sequelize(
     }
 )
 
-class Translators extends Model {}
+class Translators extends Model {
+    async getNamesAndIds() {
+        let data = await Translators.findAll({ attributes: ['id', 'name'] })
+        if (!data) { throw new Error('Error nothing of Authors was return') }
+
+        const translators = data.map((values) => {
+            let dataValues = values.dataValues;
+
+            return dataValues;
+        })
+
+        return translators;
+    }
+}
 
 Translators.init({
     id: {
