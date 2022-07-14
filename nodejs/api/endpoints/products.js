@@ -132,4 +132,60 @@ module.exports = function(app) {
             }
         }
     )
+
+    app.get('/get/categories', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const categories = new Categories();
+            const catgNamesAndIds = await categories.getNamesAndIds();
+
+            if(catgNamesAndIds) {
+                res.status(200).json({
+                    data: catgNamesAndIds
+                });
+            }    
+        }
+    )
+
+    app.get('/get/authors',
+        bodyParser.json(),
+        async function(req, res) {
+            const authors = new Authors()
+            const authNamesAndIds = await authors.getNamesAndIds();
+
+            if(authNamesAndIds) {
+                res.status(200).json({
+                    data: authNamesAndIds
+                });
+            }
+        }
+    )
+
+    app.get('/get/publishers', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const publishers = new Publishers();
+            const publNamesAndIds = await publishers.getNamesAndIds()
+
+            if(publNamesAndIds) {
+                res.status(200).json({
+                    data: publNamesAndIds
+                })
+            }
+        }
+    )
+
+    app.get('/get/translators', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const translators = new Translators()
+            const translNamesAndIds = await translators.getNamesAndIds()
+
+            if(translNamesAndIds) {
+                res.status(200).json({
+                    data: translNamesAndIds
+                });
+            }
+        }
+    )
 }
