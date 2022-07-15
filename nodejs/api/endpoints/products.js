@@ -23,7 +23,7 @@ module.exports = function(app) {
             });
 
             if(categorie) {
-                return res.status(200).json({
+                return res.status(201).json({
                     msg: "Category created successfully"
                 })
             }
@@ -46,7 +46,7 @@ module.exports = function(app) {
             });
 
             if(translator) {
-                return res.status(200).json({
+                return res.status(201).json({
                     msg: "Translators created successfully"
                 });
             }
@@ -69,7 +69,7 @@ module.exports = function(app) {
             });
 
             if(author) {
-                return res.status(200).json({
+                return res.status(201).json({
                     msg: "Authors created successfully"
                 });
             }
@@ -92,7 +92,7 @@ module.exports = function(app) {
             });
 
             if(publisher) {
-                return res.status(200).json({
+                return res.status(201).json({
                     msg: "Authors created successfully"
                 });
             }
@@ -126,7 +126,7 @@ module.exports = function(app) {
             });
 
             if(product) {
-                res.status(200).json({
+                res.status(201).json({
                     msg: "Products created successfully"
                 })
             }
@@ -137,7 +137,7 @@ module.exports = function(app) {
         bodyParser.json(), 
         async function(req, res) {
             const categories = new Categories();
-            const catgNamesAndIds = await categories.getNamesAndIds();
+            const catgNamesAndIds = await categories.getAll();
 
             if(catgNamesAndIds) {
                 res.status(200).json({
@@ -151,7 +151,7 @@ module.exports = function(app) {
         bodyParser.json(),
         async function(req, res) {
             const authors = new Authors()
-            const authNamesAndIds = await authors.getNamesAndIds();
+            const authNamesAndIds = await authors.getAll();
 
             if(authNamesAndIds) {
                 res.status(200).json({
@@ -165,7 +165,7 @@ module.exports = function(app) {
         bodyParser.json(), 
         async function(req, res) {
             const publishers = new Publishers();
-            const publNamesAndIds = await publishers.getNamesAndIds()
+            const publNamesAndIds = await publishers.getAll()
 
             if(publNamesAndIds) {
                 res.status(200).json({
@@ -179,7 +179,7 @@ module.exports = function(app) {
         bodyParser.json(), 
         async function(req, res) {
             const translators = new Translators()
-            const translNamesAndIds = await translators.getNamesAndIds()
+            const translNamesAndIds = await translators.getAll()
 
             if(translNamesAndIds) {
                 res.status(200).json({
