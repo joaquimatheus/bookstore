@@ -35,6 +35,22 @@ class Translators extends Model {
 
         return allTranslators;
     }
+
+    async delete(id) {
+        try {
+            let deleted = await Translators.destroy({
+                where: {
+                    id
+                }
+            })
+
+            return deleted;
+        } catch(ex) {
+            console.log(ex)
+        }
+
+        return deleted;
+    }
 }
 
 Translators.init({

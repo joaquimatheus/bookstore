@@ -35,6 +35,22 @@ class Publishers extends Model {
 
         return allPublishers;
     }
+
+    async delete(id) {
+        try {
+            let deleted = await Publishers.destroy({
+                where: {
+                    id
+                }
+            })
+
+            return deleted;
+        } catch(ex) {
+            console.log(ex)
+        }
+
+        return deleted;
+    }
 }
 
 Publishers.init({

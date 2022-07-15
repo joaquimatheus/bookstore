@@ -35,6 +35,22 @@ class Categories extends Model {
 
         return allCategories;
     }
+
+    async delete(id) {
+        try {
+            let deleted = await Categories.destroy({
+                where: {
+                    id
+                }
+            })
+
+            return deleted;
+        } catch(ex) {
+            console.log(ex)
+        }
+
+        return deleted;
+    }
 }
 
 Categories.init({

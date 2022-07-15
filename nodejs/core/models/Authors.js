@@ -35,6 +35,22 @@ class Authors extends Model {
 
         return allAuthors;
     }
+
+    async delete(id) {
+        try {
+            let deleted = await Authors.destroy({
+                where: {
+                    id
+                }
+            })
+
+            return deleted;
+        } catch(ex) {
+            console.log(ex)
+        }
+
+        return deleted;
+    }
 }
 
 Authors.init({
