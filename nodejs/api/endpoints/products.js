@@ -6,7 +6,7 @@ const Publishers = require('../../core/models/Publishers');
 const Products = require('../../core/models/Products');
 
 module.exports = function(app) {
-    app.post('/categories', 
+    app.post('/api/v1/categories', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body;
@@ -23,13 +23,13 @@ module.exports = function(app) {
             });
 
             if(categorie) {
-                return res.status(200).json({
+                return res.status(201).json({
                     msg: "Category created successfully"
                 })
             }
     });
 
-    app.post('/translators', 
+    app.post('/api/v1/translators', 
         bodyParser.json(),
         async function(req, res) {
             const { name, description } = req.body;
@@ -46,13 +46,13 @@ module.exports = function(app) {
             });
 
             if(translator) {
-                return res.status(200).json({
+                return res.status(201).json({
                     msg: "Translators created successfully"
                 });
             }
         });
 
-    app.post('/authors', 
+    app.post('/api/v1/authors', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body;
@@ -69,13 +69,13 @@ module.exports = function(app) {
             });
 
             if(author) {
-                return res.status(200).json({
+                return res.status(201).json({
                     msg: "Authors created successfully"
                 });
             }
         });
 
-    app.post('/publishers', 
+    app.post('/api/v1/publishers', 
         bodyParser.json(), 
         async function(req, res) {
             const { name, description } = req.body
@@ -92,13 +92,13 @@ module.exports = function(app) {
             });
 
             if(publisher) {
-                return res.status(200).json({
+                return res.status(201).json({
                     msg: "Authors created successfully"
                 });
             }
         })
 
-    app.post('/products', 
+    app.post('/api/v1/products', 
         bodyParser.json(),
         async function(req, res) {
             /*
@@ -126,10 +126,152 @@ module.exports = function(app) {
             });
 
             if(product) {
-                res.status(200).json({
+                res.status(201).json({
                     msg: "Products created successfully"
                 })
             }
         }
     )
+
+    app.get('/api/v1/categories', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const categories = new Categories();
+            const catgNamesAndIds = await categories.getAll();
+
+            if(catgNamesAndIds) {
+                res.status(200).json({
+                    data: catgNamesAndIds
+                });
+            }    
+        }
+    )
+
+    app.get('/api/v1/authors',
+        bodyParser.json(),
+        async function(req, res) {
+            const authors = new Authors()
+            const authNamesAndIds = await authors.getAll();
+
+            if(authNamesAndIds) {
+                res.status(200).json({
+                    data: authNamesAndIds
+                });
+            }
+        }
+    )
+
+    app.get('/api/v1/publishers', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const publishers = new Publishers();
+            const publNamesAndIds = await publishers.getAll()
+
+            if(publNamesAndIds) {
+                res.status(200).json({
+                    data: publNamesAndIds
+                })
+            }
+        }
+    )
+
+    app.get('/api/v1/translators', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const translators = new Translators()
+            const translNamesAndIds = await translators.getAll()
+
+            if(translNamesAndIds) {
+                res.status(200).json({
+                    data: translNamesAndIds
+                });
+            }
+        }
+    )
+
+    app.delete('/api/v1/categories/:id', 
+        bodyParser.json(),
+        async function(req, res) {
+            const { id } = req.params;
+            const category = new Categories();
+            const deletedCateg = await category.delete(id); 
+
+            console.log(deletedCateg);
+            
+            if (deletedCateg) {
+                res.status(200).json({
+                    categoryId: id,
+                    msg: 'The category has been deleted'
+                })
+            } else {
+                res.status(404).json({
+                    categoryId: id,
+                    msg: `The category ins't exist`
+                })
+            }
+        }
+    )
+
+    app.delete('/api/v1/authors/:id',
+        bodyParser.json(),
+        async function(req, res) {
+            const { id } = req.params;
+
+            const author = new Authors;
+            const deletedAuthor = await author.delete(id);
+
+            if (deletedAuthor) {
+                res.status(200).json({
+                    authorId: id,
+                    msg: 'The author has been deleted'
+                })
+            } else {
+                res.status(404).json({
+                    authorId: id,
+                    msg: `The category isn't exist`
+                })
+            }
+        })
+
+    app.delete('/api/v1/translators/:id', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { id } = req.params;
+
+            const translator = new Translators();
+            const deletedTranslator = await translator.delete(id);
+
+            if (deletedTranslator) {
+                res.status(200).json({
+                    translatorID: id,
+                    msg: 'The Translator has been deleted'
+                })
+            } else {
+                res.status(404).json({
+                    translatorID: id,
+                    msg: `The translator insn't exists`
+                })
+            }
+    })
+
+    app.delete('/api/v1/publishers/:id', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { id } = req.params;
+
+            const publisher = new Publishers();
+            const deletedPublisher = await publisher.delete(id);
+
+            if (deletedPublisher) {
+                res.status(200).json({
+                    publisherId: id,
+                    msg: `The publisher has been deleted`
+                })
+            } else {
+                res.status(404).json({
+                    publisherId: id,
+                    msg: `The publish isn't exists`
+                })
+            }
+        })
 }

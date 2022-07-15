@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "unlicense",
+  "scripts": {
+    "api": "node nodejs/api/api.js",
+    "server": "node ui/http_server/app.js"
+  },
   "dependencies": {
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",

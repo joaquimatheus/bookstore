@@ -11,8 +11,45 @@ const sequelize = new Sequelize(
 )
 
 class Categories extends Model {
-    returnAllCategories() {
-        return this.name
+    async getAllNamesAndIds() {
+        let data = await Categories.findAll({ attributes: ['id', 'name'] })
+        if (!data) { throw new Error(`Error nothing of Categories was return`)}
+
+        const categories = data.map((values) => {
+            let dataValues = values.dataValues;
+
+            return dataValues;
+        })
+
+        return categories;
+    }
+
+    async getAll() {
+        let data = await Categories.findAll();
+        if (!data) { throw new Error('Error! not was return all Categories') }
+
+        const allCategories = data.map((values) => {
+            let dataValues = values.dataValues;
+            return dataValues;
+        })
+
+        return allCategories;
+    }
+
+    async delete(id) {
+        try {
+            let deleted = await Categories.destroy({
+                where: {
+                    id
+                }
+            })
+
+            return deleted;
+        } catch(ex) {
+            console.log(ex)
+        }
+
+        return deleted;
     }
 }
 
