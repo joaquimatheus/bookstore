@@ -11,7 +11,7 @@ const sequelize = new Sequelize(
 )
 
 class Authors extends Model {
-    async getNamesAndIds() {
+    async getAllNamesAndIds() {
         let data = await Authors.findAll({ attributes: ['id', 'name'] })
         if (!data) { throw new Error('Error nothing of Authors was return') }
 
@@ -22,6 +22,18 @@ class Authors extends Model {
         })
 
         return authors;
+    }
+
+    async getAll() {
+        let data = await Authors.findAll()
+        if (!data) { throw new Error(`Error! wasn't return Authors`) }
+
+        const allAuthors = data.map((values) => {
+            let dataValues = values.dataValues;
+            return dataValues;
+        })
+
+        return allAuthors;
     }
 }
 
