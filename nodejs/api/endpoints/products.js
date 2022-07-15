@@ -188,4 +188,90 @@ module.exports = function(app) {
             }
         }
     )
+
+    app.delete('/api/v1/categories/:id', 
+        bodyParser.json(),
+        async function(req, res) {
+            const { id } = req.params;
+            const category = new Categories();
+            const deletedCateg = await category.delete(id); 
+
+            console.log(deletedCateg);
+            
+            if (deletedCateg) {
+                res.status(200).json({
+                    categoryId: id,
+                    msg: 'The category has been deleted'
+                })
+            } else {
+                res.status(404).json({
+                    categoryId: id,
+                    msg: `The category ins't exist`
+                })
+            }
+        }
+    )
+
+    app.delete('/api/v1/authors/:id',
+        bodyParser.json(),
+        async function(req, res) {
+            const { id } = req.params;
+
+            const author = new Authors;
+            const deletedAuthor = await author.delete(id);
+
+            if (deletedAuthor) {
+                res.status(200).json({
+                    authorId: id,
+                    msg: 'The author has been deleted'
+                })
+            } else {
+                res.status(404).json({
+                    authorId: id,
+                    msg: `The category isn't exist`
+                })
+            }
+        })
+
+    app.delete('/api/v1/translators/:id', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { id } = req.params;
+
+            const translator = new Translators();
+            const deletedTranslator = await translator.delete(id);
+
+            if (deletedTranslator) {
+                res.status(200).json({
+                    translatorID: id,
+                    msg: 'The Translator has been deleted'
+                })
+            } else {
+                res.status(404).json({
+                    translatorID: id,
+                    msg: `The translator insn't exists`
+                })
+            }
+    })
+
+    app.delete('/api/v1/publishers/:id', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { id } = req.params;
+
+            const publisher = new Publishers();
+            const deletedPublisher = await publisher.delete(id);
+
+            if (deletedPublisher) {
+                res.status(200).json({
+                    publisherId: id,
+                    msg: `The publisher has been deleted`
+                })
+            } else {
+                res.status(404).json({
+                    publisherId: id,
+                    msg: `The publish isn't exists`
+                })
+            }
+        })
 }
