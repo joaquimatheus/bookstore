@@ -12,6 +12,7 @@ module.exports = function(app) {
 
     const _get = app.get;
     const _post = app.post;
+    const _delete = app.delete
 
     app.post = function(route) {
         console.log(`Binding route: {POST} ${route}`)
@@ -23,8 +24,14 @@ module.exports = function(app) {
         return _get.apply(this, arguments);
     };
 
+    app.delete = function(route) {
+        console.log(`Binding route: {DELETE} ${route}`);
+        return _delete.apply(this, arguments);
+    }
+
     require('./endpoints/products')(app);
 
     app.get = _get;
     app.post = _post;
+    app.delete = _delete
 }
