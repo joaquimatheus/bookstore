@@ -13,6 +13,7 @@ module.exports = function(app) {
 
             if (!name || !description) {
                 return res.status(400).json({
+                    type: 'error',
                     msg: 'Missing parameters'
                 });
             }
@@ -24,7 +25,8 @@ module.exports = function(app) {
 
             if(categorie) {
                 return res.status(201).json({
-                    msg: "Category created successfully"
+                    type: 'categories',
+                    msg: "created successfully"
                 })
             }
     });
@@ -36,6 +38,7 @@ module.exports = function(app) {
 
             if (!name || !description) {
                 return res.status(400).json({
+                    type: 'error',
                     msg: 'Missing parameters'
                 });
             }
@@ -47,7 +50,8 @@ module.exports = function(app) {
 
             if(translator) {
                 return res.status(201).json({
-                    msg: "Translators created successfully"
+                    type: 'translators',
+                    msg: "created successfully"
                 });
             }
         });
@@ -59,6 +63,7 @@ module.exports = function(app) {
 
             if (!name || !description) {
                 return res.status(400).json({
+                    type: 'error',
                     msg: 'Missing parameters'
                 });
             }
@@ -70,7 +75,8 @@ module.exports = function(app) {
 
             if(author) {
                 return res.status(201).json({
-                    msg: "Authors created successfully"
+                    type: 'authors',
+                    msg: "created successfully"
                 });
             }
         });
@@ -82,6 +88,7 @@ module.exports = function(app) {
 
             if(!name || !description) {
                 return res.status(400).json({
+                    type: 'error',
                     msg: 'Missing parameters'
                 });
             }
@@ -93,6 +100,7 @@ module.exports = function(app) {
 
             if(publisher) {
                 return res.status(201).json({
+                    type: 'publishers',
                     msg: "Authors created successfully"
                 });
             }
@@ -127,7 +135,8 @@ module.exports = function(app) {
 
             if(product) {
                 res.status(201).json({
-                    msg: "Products created successfully"
+                    type: 'products',
+                    msg: "created successfully"
                 })
             }
         }
@@ -141,6 +150,7 @@ module.exports = function(app) {
 
             if(catgNamesAndIds) {
                 res.status(200).json({
+                    type: 'categories',
                     data: catgNamesAndIds
                 });
             }    
@@ -155,6 +165,7 @@ module.exports = function(app) {
 
             if(authNamesAndIds) {
                 res.status(200).json({
+                    type: 'authors',
                     data: authNamesAndIds
                 });
             }
@@ -169,6 +180,7 @@ module.exports = function(app) {
 
             if(publNamesAndIds) {
                 res.status(200).json({
+                    type: 'publishers',
                     data: publNamesAndIds
                 })
             }
@@ -183,6 +195,7 @@ module.exports = function(app) {
 
             if(translNamesAndIds) {
                 res.status(200).json({
+                    type: 'translators',
                     data: translNamesAndIds
                 });
             }
@@ -196,6 +209,7 @@ module.exports = function(app) {
 
             if (allCatgNamesAndIds) {
                 res.status(200).json({
+                    type: 'categories',
                     data: allCatgNamesAndIds
                 })
             }
@@ -209,6 +223,7 @@ module.exports = function(app) {
 
             if (allPublisNamesAndIds) {
                 res.status(200).json({
+                    type: 'publishers',
                     data: allPublisNamesAndIds
                 })
             }
@@ -222,6 +237,7 @@ module.exports = function(app) {
 
             if (allTranslNamesAndIds) {
                 res.status(200).json({
+                    type: 'translators',
                     data: allTranslNamesAndIds
                 })
             }
@@ -234,6 +250,7 @@ module.exports = function(app) {
 
             if (allAuthorsNamesAndIds) {
                 res.status(200).json({
+                    type: 'authors',
                     data: allAuthorsNamesAndIds
                 })
             }
@@ -248,13 +265,15 @@ module.exports = function(app) {
 
             if (deletedCateg) {
                 res.status(200).json({
+                    type: 'categories',
                     categoryId: id,
-                    msg: 'The category has been deleted'
+                    msg: 'Category has been deleted'
                 })
             } else {
                 res.status(404).json({
+                    type: 'Not found',
                     categoryId: id,
-                    msg: `The category ins't exist`
+                    msg: `Category ins't exist`
                 })
             }
         }
@@ -270,11 +289,13 @@ module.exports = function(app) {
 
             if (deletedAuthor) {
                 res.status(200).json({
+                    type: 'author',
                     authorId: id,
                     msg: 'The author has been deleted'
                 })
             } else {
                 res.status(404).json({
+                    type: 'Not found',
                     authorId: id,
                     msg: `The category isn't exist`
                 })
@@ -291,11 +312,13 @@ module.exports = function(app) {
 
             if (deletedTranslator) {
                 res.status(200).json({
+                    type: 'translator',
                     translatorID: id,
                     msg: 'The Translator has been deleted'
                 })
             } else {
                 res.status(404).json({
+                    type: 'Not found',
                     translatorID: id,
                     msg: `The translator insn't exists`
                 })
@@ -312,11 +335,13 @@ module.exports = function(app) {
 
             if (deletedPublisher) {
                 res.status(200).json({
+                    type: 'publishers',
                     publisherId: id,
                     msg: `The publisher has been deleted`
                 })
             } else {
                 res.status(404).json({
+                    type: 'Not found',
                     publisherId: id,
                     msg: `The publish isn't exists`
                 })
