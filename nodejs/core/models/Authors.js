@@ -12,16 +12,22 @@ const sequelize = new Sequelize(
 
 class Authors extends Model {
     async getAllNamesAndIds() {
-        let data = await Authors.findAll({ attributes: ['id', 'name'] })
-        if (!data) { throw new Error('Error nothing of Authors was return') }
+        try {
+            let data = await Authors.findAll({ attributes: ['id', 'name']})
+            if (!data) { 
+                throw new Error(`Error nothing of Categories was return`)
+            }
 
-        const authors = data.map((values) => {
-            let dataValues = values.dataValues;
+            const authors = data.map((values) => {
+                let dataValues = values.dataValues;
 
-            return dataValues;
-        })
+                return dataValues;
+            })
 
-        return authors;
+            return authors;
+        } catch(ex) {
+            console.error(ex)
+        }
     }
 
     async getAll() {
