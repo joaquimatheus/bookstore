@@ -189,6 +189,56 @@ module.exports = function(app) {
         }
     )
 
+    app.get('/api/v1/categories/shorthand', 
+        async function(req, res) {
+            const categories = new Categories();
+            const allCatgNamesAndIds = await categories.getAllNamesAndIds()
+
+            if (allCatgNamesAndIds) {
+                res.status(200).json({
+                    data: allCatgNamesAndIds
+                })
+            }
+        }
+    )
+
+    app.get('/api/v1/publishers/shorthand',
+        async function(req, res) {
+            const publishers = new Publishers();
+            const allPublisNamesAndIds = await publishers.getAllNamesAndIds();
+
+            if (allPublisNamesAndIds) {
+                res.status(200).json({
+                    data: allPublisNamesAndIds
+                })
+            }
+        }
+    )
+
+    app.get('/api/v1/translators/shorthand',
+        async function(req, res) {
+            const translators = new Translators();
+            const allTranslNamesAndIds = await translators.getAllNamesAndIds()
+
+            if (allTranslNamesAndIds) {
+                res.status(200).json({
+                    data: allTranslNamesAndIds
+                })
+            }
+        })
+
+    app.get('/api/v1/authors/shorthand', 
+        async function(req, res) {
+            const authors = new Authors();
+            const allAuthorsNamesAndIds = await authors.getAllNamesAndIds()
+
+            if (allAuthorsNamesAndIds) {
+                res.status(200).json({
+                    data: allAuthorsNamesAndIds
+                })
+            }
+        })
+
     app.delete('/api/v1/categories/:id', 
         bodyParser.json(),
         async function(req, res) {
@@ -196,8 +246,6 @@ module.exports = function(app) {
             const category = new Categories();
             const deletedCateg = await category.delete(id); 
 
-            console.log(deletedCateg);
-            
             if (deletedCateg) {
                 res.status(200).json({
                     categoryId: id,
