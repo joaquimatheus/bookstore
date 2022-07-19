@@ -405,7 +405,6 @@ module.exports = function(app) {
         }
     )
 
-
     app.patch('/api/v1/translators/:id', 
         bodyParser.json(), 
         async function(req, res) {
@@ -418,7 +417,7 @@ module.exports = function(app) {
             if (updatedTransl) {
                 res.status(200).json({
                     type: 'translator',
-                    authorId: id,
+                    translatorId: id,
                     msg: 'The translator updated'
                 })
             }
