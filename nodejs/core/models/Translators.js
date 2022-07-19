@@ -57,6 +57,16 @@ class Translators extends Model {
 
         return deleted;
     }
+    async update(id, changes) {
+        try {
+            let updated = await Translators.update(changes, { where: {id}});
+            if(!updated) {throw new Error('Error updating translator')};
+
+            return updated;
+        } catch(ex) {
+            console.log(ex);
+        }
+    }
 }
 
 Translators.init({

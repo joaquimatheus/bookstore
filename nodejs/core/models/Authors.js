@@ -57,6 +57,17 @@ class Authors extends Model {
 
         return deleted;
     }
+
+    async update(id, changes) {
+        try {
+            let updated = await Authors.update(changes, { where: {id}});
+            if(!updated) {throw new Error('Error updating author')};
+
+            return updated;
+        } catch(ex) {
+            console.log(ex);
+        }
+    }
 }
 
 Authors.init({

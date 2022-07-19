@@ -57,6 +57,17 @@ class Publishers extends Model {
 
         return deleted;
     }
+
+    async update(id, changes) {
+        try {
+            let updated = await Publishers.update(changes, { where: {id}});
+            if(!updated) {throw new Error('Error updating publisher')};
+
+            return updated;
+        } catch(ex) {
+            console.log(ex);
+        }
+    }
 }
 
 Publishers.init({

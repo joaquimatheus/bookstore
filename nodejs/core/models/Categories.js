@@ -57,6 +57,17 @@ class Categories extends Model {
 
         return deleted;
     }
+
+    async update(id, changes) {
+        try {
+            let updated = await Categories.update(changes, { where: {id} })
+            if(!updated) { throw new Error('Error updating category') }
+            
+            return updated;
+        } catch(ex) {
+            console.log(ex)
+        }
+    }
 }
 
 Categories.init({
