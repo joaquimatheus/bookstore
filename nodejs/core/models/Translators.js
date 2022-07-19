@@ -12,16 +12,22 @@ const sequelize = new Sequelize(
 
 class Translators extends Model {
     async getAllNamesAndIds() {
-        let data = await Translators.findAll({ attributes: ['id', 'name'] })
-        if (!data) { throw new Error('Error nothing of Authors was return') }
+        try {
+            let data = await Translators.findAll({ attributes: ['id', 'name']})
+            if (!data) { 
+                throw new Error(`Error nothing of Categories was return`)
+            }
 
-        const translators = data.map((values) => {
-            let dataValues = values.dataValues;
+            const translators = data.map((values) => {
+                let dataValues = values.dataValues;
 
-            return dataValues;
-        })
+                return dataValues;
+            })
 
-        return translators;
+            return translators;
+        } catch(ex) {
+            console.error(ex)
+        }
     }
 
     async getAll() {
