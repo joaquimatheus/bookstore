@@ -1,47 +1,22 @@
-const domqs = document.querySelector.bind(document);
+console.log(window.app);
 
-window.onload = async function() {
+window.onload = async function () {
+    const { domqs, ajaxAdapter, showDataTables } = window.app;
 
-    domqs('form').addEventListener('submit', async (ev) => {
+    domqs("form").addEventListener("submit", async (ev) => {
         ev.preventDefault();
 
         const formData = {
-            name: domqs('#name__input').value,
-            description: domqs('#description__input').value
-        }
+            name: domqs("#name__input").value,
+            description: domqs("#description__input").value,
+        };
 
-        await fetch('http://localhost:3000/categories', {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            mode: 'cors',
-            method: "POST",
-            body: JSON.stringify(formData)
-        })
-        .then(async(res) => console.log(res) )
-        .catch(async(res) => console.log(res))
-    })
-
-}
-document.addEventListener("DOMContentLoaded", () => {
-    const tbody = domqs('tbody');
-
-    fetch('http://localhost:3000/api/v1/categories')
-        .then(res => res.json() )
-        .then(obj => {
-            const { data } = obj
-            let output = "";
-            data.forEach(value => {
-                output += `
-                    <tr>
-                        <td>${value.name}></td>
-                        <td>${value.description}</td>
-                    <tr>
-                `
+        await ajaxAdapter("POST", "categories", formData)
+            .then(async (res) => {
+                alert(`The category is created your id is ${res.categoryId}`);
             })
+            .catch(async (res) => console.log(res));
+    });
 
-            tbody.innerHTML += output;
-        })
-        .catch(err => console.error(err));
-})
+    showDataTables("categories", "tbody");
+};
