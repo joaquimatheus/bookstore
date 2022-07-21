@@ -18,14 +18,13 @@ module.exports = function(app) {
                 });
             }
 
-            const categorie = await Categories.create({
-                name,
-                description
-            });
+            const category = new Categories()
+            const categoryCreated = await category.createResource(name, description);
 
-            if(categorie) {
+            if(categoryCreated) {
                 return res.status(201).json({
                     type: 'categories',
+                    categoryId: categoryCreated.id,
                     msg: "created successfully"
                 })
             }
@@ -93,15 +92,14 @@ module.exports = function(app) {
                 });
             }
 
-            const publisher = await Publishers.create({
-                name,
-                description
-            });
+            const publisher = new Publishers();
+            const publisherCreated = await publisher.createResource(name, description)
 
-            if(publisher) {
+            if(publisherCreated) {
                 return res.status(201).json({
                     type: 'publishers',
-                    msg: "Authors created successfully"
+                    publisherId: publisherCreated.id,
+                    msg: "Publisher created successfully"
                 });
             }
         })
