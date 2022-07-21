@@ -30,6 +30,22 @@ class Publishers extends Model {
         }
     }
 
+    async createResource(name, description) {
+        try {
+            const data = await Publishers.create({
+                name, description
+            })
+
+            if(!data) {
+                throw new Error('Error to create a new Publisher')
+            }
+
+            return data
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
+
     async getAll() {
         let data = await Publishers.findAll();
         if (!data) { throw new Error(`Error! wasn't return all categories`)};
@@ -56,6 +72,17 @@ class Publishers extends Model {
         }
 
         return deleted;
+    }
+
+    async update(id, changes) {
+        try {
+            let updated = await Publishers.update(changes, { where: {id}});
+            if(!updated) {throw new Error('Error updating publisher')};
+
+            return updated;
+        } catch(ex) {
+            console.log(ex);
+        }
     }
 }
 

@@ -1,24 +1,22 @@
-window.onload = () => {
-    const domqs = document.querySelector.bind(document);
+console.log(window.app);
 
-    domqs('form').addEventListener('submit', async (ev) => {
+window.onload = async function () {
+    const { domqs, ajaxAdapter, showDataTables } = window.app;
+
+    domqs("form").addEventListener("submit", async (ev) => {
         ev.preventDefault();
 
         const formData = {
-            name: domqs('#name__input').value,
-            description: domqs('#description__input').value
-        }
+            name: domqs("#name__input").value,
+            description: domqs("#description__input").value,
+        };
 
-        await fetch('http://localhost:3000/categories', {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            mode: 'cors',
-            method: "POST",
-            body: JSON.stringify(formData)
-        })
-        .then(async(res) => console.log(res) )
-        .catch(async(res) => console.log(res))
-    })
-}
+        await ajaxAdapter("POST", "categories", formData)
+            .then(async (res) => {
+                alert(`The category is created your id is ${res.categoryId}`);
+            })
+            .catch(async (res) => console.log(res));
+    });
+
+    showDataTables("categories", "tbody");
+};

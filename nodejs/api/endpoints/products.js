@@ -18,14 +18,13 @@ module.exports = function(app) {
                 });
             }
 
-            const categorie = await Categories.create({
-                name,
-                description
-            });
+            const category = new Categories()
+            const categoryCreated = await category.createResource(name, description);
 
-            if(categorie) {
+            if(categoryCreated) {
                 return res.status(201).json({
                     type: 'categories',
+                    categoryId: categoryCreated.id,
                     msg: "created successfully"
                 })
             }
@@ -93,15 +92,14 @@ module.exports = function(app) {
                 });
             }
 
-            const publisher = await Publishers.create({
-                name,
-                description
-            });
+            const publisher = new Publishers();
+            const publisherCreated = await publisher.createResource(name, description)
 
-            if(publisher) {
+            if(publisherCreated) {
                 return res.status(201).json({
                     type: 'publishers',
-                    msg: "Authors created successfully"
+                    publisherId: publisherCreated.id,
+                    msg: "Publisher created successfully"
                 });
             }
         })
@@ -347,4 +345,80 @@ module.exports = function(app) {
                 })
             }
         })
+
+    app.patch('/api/v1/categories/:id', 
+        bodyParser.json(),
+        async function(req, res) {
+            const { id } = req.params;
+            const changes = req.body;
+
+            const category = new Categories();
+            const updatedCateg = category.update(id, changes) ;
+
+            if(updatedCateg) {
+                res.status(200).json({
+                    type: 'categories',
+                    categoryId: id,
+                    msg: 'The category is updated'
+                })
+            } 
+        }
+    )
+
+    app.patch('/api/v1/publishers/:id', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { id } = req.params;
+            const changes = req.body;
+
+            const publisher = new Publishers();
+            const updatedPubli = publisher.update(id, changes)
+
+            if (updatedPubli) {
+                res.status(200).json({
+                    type: 'publishers',
+                    publisherId: id,
+                    msg: 'The publisher updated'
+                })
+            }
+        }
+    )
+
+    app.patch('/api/v1/authors/:id', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { id } = req.params;
+            const changes = req.body;
+
+            const author = new Authors();
+            const updatedAuth = author.update(id, changes);
+
+            if (updatedAuth) {
+                res.status(200).json({
+                    type: 'authors',
+                    authorId: id,
+                    msg: 'The authors updated'
+                })
+            }
+        }
+    )
+
+    app.patch('/api/v1/translators/:id', 
+        bodyParser.json(), 
+        async function(req, res) {
+            const { id } = req.params;
+            const changes = req.body;
+
+            const translator = new Translators();
+            const updatedTransl = translator.update(id, changes);
+
+            if (updatedTransl) {
+                res.status(200).json({
+                    type: 'translator',
+                    translatorId: id,
+                    msg: 'The translator updated'
+                })
+            }
+        }
+    )
 }

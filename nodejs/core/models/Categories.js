@@ -30,6 +30,22 @@ class Categories extends Model {
         }
     }
 
+    async createResource(name, description) {
+        try {
+            const data = await Categories.create({
+                name, description
+            })
+
+            if(!data) {
+                throw new Error('Error to create a new Category')
+            }
+
+            return data
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
+
     async getAll() {
         let data = await Categories.findAll();
         if (!data) { throw new Error('Error! not was return all Categories') }
@@ -56,6 +72,17 @@ class Categories extends Model {
         }
 
         return deleted;
+    }
+
+    async update(id, changes) {
+        try {
+            let updated = await Categories.update(changes, { where: {id} })
+            if(!updated) { throw new Error('Error updating category') }
+            
+            return updated;
+        } catch(ex) {
+            console.log(ex)
+        }
     }
 }
 
