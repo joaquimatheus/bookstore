@@ -1,14 +1,7 @@
 require('../../../dotenv');
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize(
-    process.env.PSQL_DBNAME, 
-    process.env.PSQL_USER, 
-    process.env.PSQL_PASSWORD, {
-        host: process.env.PSQL_HOST,
-        dialect: 'postgres'
-    }
-)
+const sequelize = require('../sequelize.js');
 
 class Categories extends Model {
     async getAllNamesAndIds() {
@@ -106,5 +99,10 @@ Categories.init({
     modelName: 'categories',
     timestamps: true
 });
+
+(async() => {
+    const categories = new Categories();
+    console.log(await categories.getAll());
+})();
 
 module.exports = Categories;
