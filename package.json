@@ -8,6 +8,7 @@
     "server": "node ui/http_server/app.js"
   },
   "dependencies": {
+    "argument-validator": "^0.1.0",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
