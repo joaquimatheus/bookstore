@@ -1,11 +1,12 @@
 require('../../dotenv');
 const express = require('express');
 const app = express();
+const logger = require('../core/logger')
 
 const { HTTP_PORT } = process.env
 
 function fatalHandler(err) {
-    console.error(err, { FATAl: true });
+    logger.error(err, { FATAl: true });
     process.exit(1);
 }
 
@@ -18,12 +19,12 @@ app.use((req, res, next) => {
     const id = new Date().getTime()
     const msg = `[${ip} ${method} ${id}] - receiving {${url}}`
 
-    console.log(msg);
+    logger.info(msg);
 
     res.on('close', () => {
         const start = new Date() - id;
 
-        console.log(`[${ip}] {${method}} ${id} - ]` +
+        logger.info(`[${ip}] {${method}} ${id} - ]` +
             `closed: ${url} ${statusCode} ${start}ms`)
     });
 
@@ -32,7 +33,5 @@ app.use((req, res, next) => {
 
 require('./routes')(app);
 app.listen(HTTP_PORT, () => {
-
-    console.log(`[api] is running in http://localhost:${HTTP_PORT}`);
-
+    logger.info(`[api] is running in http://localhost:${HTTP_PORT}`);
 }).on('error', fatalHandler);
