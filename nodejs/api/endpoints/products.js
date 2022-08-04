@@ -5,18 +5,16 @@ const Authors = require('../../core/models/Authors');
 const Publishers = require('../../core/models/Publishers');
 const Products = require('../../core/models/Products');
 
+const { buildHandler } = require('../utils');
+
 module.exports = function(app) {
     app.post('/api/v1/categories', 
         bodyParser.json(), 
-        async function(req, res) {
-            const { name, description } = req.body;
-
-            if (!name || !description) {
-                return res.status(400).json({
-                    type: 'error',
-                    msg: 'Missing parameters'
-                });
-            }
+        buildHandler(async function(req, res) {
+            req.json(req.body) 
+            
+            const name = req.string('name');
+            const description = req.string('description');
 
             const category = new Categories()
             const categoryCreated = await category.createResource(name, description);
@@ -28,81 +26,71 @@ module.exports = function(app) {
                     msg: "created successfully"
                 })
             }
-    });
+    }));
 
     app.post('/api/v1/translators', 
         bodyParser.json(),
-        async function(req, res) {
-            const { name, description } = req.body;
+        buildHandler(async function(req, res) {
+            req.json(req.body);
 
-            if (!name || !description) {
-                return res.status(400).json({
-                    type: 'error',
-                    msg: 'Missing parameters'
-                });
-            }
+            const name = req.string('name');
+            const description = req.string('description');
 
-            const translator = await Translators.create({
-                name,
-                description
-            });
+            const translator = new Translators()
+            const translatorCreated = await translator.createResource(name, description );
 
             if(translator) {
                 return res.status(201).json({
                     type: 'translators',
+                    translatorId: translatorCreated.id,
                     msg: "created successfully"
                 });
             }
-        });
+        }));
 
     app.post('/api/v1/authors', 
         bodyParser.json(), 
-        async function(req, res) {
-            const { name, description } = req.body;
+        buildHandler(async function(req, res) {
+            req.json(req.body);
 
-            if (!name || !description) {
-                return res.status(400).json({
-                    type: 'error',
-                    msg: 'Missing parameters'
-                });
-            }
+            const name = req.string('name');
+            const description = req.string('description');
 
-            const author = await Authors.create({
-                name,
-                description
-            });
+            const author = new Authors();
+            const authorCreated = await author.createResource(
+                name, description
+            );
 
-            if(author) {
+            console.log(authorCreated)
+
+            if(authorCreated) {
                 return res.status(201).json({
                     type: 'authors',
+                    authorId: authorCreated.id,
                     msg: "created successfully"
                 });
             }
-        });
+        }));
 
     app.post('/api/v1/publishers', 
         bodyParser.json(), 
-        async function(req, res) {
-            const { name, description } = req.body
+        buildHandler(async function(req, res) {
+            res.json(req.body);
 
-            if(!name || !description) {
-                return res.status(400).json({
-                    type: 'error',
-                    msg: 'Missing parameters'
-                });
-            }
+            const name = req.string('name');
+            const description = req.string('description')
 
             const publisher = new Publishers();
-            const publisherCreated = await publisher.createResource(name, description)
+            const publCreated = await publisher.createResource(name, description)
 
-            if(publisherCreated) {
+            if(publCreated) {
                 return res.status(201).json({
                     type: 'publishers',
-                    publisherId: publisherCreated.id,
-                    msg: "Publisher created successfully"
-                });
+                    publisherId: publCreated,
+                    msg: 'Publslished is created'
+                })
             }
-        })
+        }))
 
     app.post('/api/v1/products', 
         bodyParser.json(),
