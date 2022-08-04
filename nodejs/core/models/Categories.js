@@ -100,9 +100,4 @@ Categories.init({
     timestamps: true
 });
 
-(async() => {
-    const categories = new Categories();
-    console.log(await categories.getAll());
-})();
-
 module.exports = Categories;
