@@ -1,3 +1,5 @@
+const logger = require('../core/logger');
+
 function allowCors(req, res, next) {
     res.header('Access-Control-Allow-Origin', process.env.UI_ORIGIN);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -16,22 +18,22 @@ module.exports = function(app) {
     const _patch = app.patch
 
     app.post = function(route) {
-        console.log(`Binding route: {POST} ${route}`)
+        logger.info(`Binding route: {POST} ${route}`)
         return _post.apply(this, arguments);
     };
 
     app.get = function(route) {
-        console.log(`Binding route: {GET} ${route}`)
+        logger.info(`Binding route: {GET} ${route}`)
         return _get.apply(this, arguments);
     };
 
     app.delete = function(route) {
-        console.log(`Binding route: {DELETE} ${route}`);
+        logger.info(`Binding route: {DELETE} ${route}`);
         return _delete.apply(this, arguments);
     }
 
     app.patch = function(route) {
-        console.log(`Binding route: {PATCH} ${route}`)
+        logger.info(`Binding route: {PATCH} ${route}`)
         return _patch.apply(this, arguments);
     }
 
