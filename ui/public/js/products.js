@@ -8,25 +8,23 @@ window.onload = async function () {
         publishers: 'http://localhost:3000/api/v1/publishers/shorthand'
     }
 
-    async function dropDownList(url, idSelector) {
-        document.addEventListener("DOMContentLoaded", async () => {
-            const selectDrop = domqs(idSelector);
+    function dropDownList(url, idSelector) {
+        const selectDrop = domqs(idSelector);
 
-            await fetch(url)
-                .then((res) => {
-                    return res.json();
+        fetch(url)
+            .then((res) => {
+                return res.json();
+            })
+            .then((obj) => {
+                const { data } = obj
+                let output = "";
+                data.forEach(value => {
+                    output += `<option value="${value.id}">${value.name}</option>` 
                 })
-                .then((obj) => {
-                    const { data } = obj
-                    let output = "";
-                    data.forEach(value => {
-                        output += `<option value="${value.id}">${value.name}</option>` 
-                    })
 
-                    selectDrop.innerHTML += output;
-                })
-                .catch((err) => console.error(err));
-        });
+                selectDrop.innerHTML += output;
+            })
+            .catch((err) => console.error(err));
     }
 
     function main() {
