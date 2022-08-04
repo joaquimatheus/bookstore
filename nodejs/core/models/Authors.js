@@ -4,6 +4,23 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('../sequelize.js');
 
 class Authors extends Model {
+    async createResource(name, description) {
+        try {
+            const data = await Authors.create({
+                name, description
+            })
+
+            console.log(data);
+
+            if(!data) {
+                throw new Error('Error to create a new Authors');
+            }
+
+            return data;
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
     async getAllNamesAndIds() {
         try {
             let data = await Authors.findAll({ attributes: ['id', 'name']})
@@ -83,10 +100,5 @@ Authors.init({
     modelName: 'authors',
     timestamps: true
 });
-
-(async() => {
-    const authors = new Authors();
-    console.log(await authors.getAll());
-})();
 
 module.exports = Authors;

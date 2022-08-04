@@ -99,9 +99,5 @@ Publishers.init({
     modelName: 'publishers',
     timestamps: true
 });
-(async() => {
-    const publishers = new Publishers();
-    console.log(await publishers.getAll());
-})();
 
 module.exports = Publishers;
