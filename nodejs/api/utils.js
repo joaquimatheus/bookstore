@@ -38,7 +38,6 @@ const requestExtensions = {
         V.string(key, 'key');
 
         const val = this.tryArg(key, obj);
-        console.log(val);
 
         if (val === undefined) {
             throwValidationError(`${key} was not sent`)
@@ -64,7 +63,18 @@ const requestExtensions = {
         V.string(key, 'key');
 
         const val = this.arg(key, obj);
-        return String(key, obj);
+        return String(val).trim();
+    },
+
+    array(key, obj) {
+        V.string(key, 'key');
+        const val = this.arg(key, obj);
+
+        if (V.isArray(val)) {
+            return val;
+        }
+
+        throwValidationError(`${key} must be an array`);
     },
 
     json(obj) {

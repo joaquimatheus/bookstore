@@ -78,10 +78,10 @@ module.exports = function(app) {
             res.json(req.body);
 
             const name = req.string('name');
-            const description = req.string('description')
+            const description = req.string('description');
 
             const publisher = new Publishers();
-            const publCreated = await publisher.createResource(name, description)
+            const publCreated = await publisher.createResource(name, description);
 
             if(publCreated) {
                 return res.status(201).json({
@@ -94,14 +94,15 @@ module.exports = function(app) {
 
     app.post('/api/v1/products', 
         bodyParser.json(),
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             /*
             const { name, description, category_id, author_id, translator_id, 
                 publishers_id, pages, language, price, link, 
                 isbn13, isbn10} = req.body;
             */
 
-            const productObj = req.body;
+            req.json(req.body);
+
             console.log(productObj);
 
             const product = await Products.create({
@@ -126,11 +127,10 @@ module.exports = function(app) {
                 })
             }
         }
-    )
+    ))
 
     app.get('/api/v1/categories', 
-        bodyParser.json(), 
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             const categories = new Categories();
             const catgNamesAndIds = await categories.getAll();
 
@@ -140,12 +140,11 @@ module.exports = function(app) {
                     data: catgNamesAndIds
                 });
             }    
-        }
+        })
     )
 
     app.get('/api/v1/authors',
-        bodyParser.json(),
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             const authors = new Authors()
             const authNamesAndIds = await authors.getAll();
 
@@ -155,12 +154,11 @@ module.exports = function(app) {
                     data: authNamesAndIds
                 });
             }
-        }
+        })
     )
 
     app.get('/api/v1/publishers', 
-        bodyParser.json(), 
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             const publishers = new Publishers();
             const publNamesAndIds = await publishers.getAll()
 
@@ -170,12 +168,11 @@ module.exports = function(app) {
                     data: publNamesAndIds
                 })
             }
-        }
+        })
     )
 
     app.get('/api/v1/translators', 
-        bodyParser.json(), 
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             const translators = new Translators()
             const translNamesAndIds = await translators.getAll()
 
@@ -185,11 +182,11 @@ module.exports = function(app) {
                     data: translNamesAndIds
                 });
             }
-        }
+        })
     )
 
     app.get('/api/v1/categories/shorthand', 
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             const categories = new Categories();
             const allCatgNamesAndIds = await categories.getAllNamesAndIds()
 
@@ -199,11 +196,11 @@ module.exports = function(app) {
                     data: allCatgNamesAndIds
                 })
             }
-        }
+        })
     )
 
     app.get('/api/v1/publishers/shorthand',
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             const publishers = new Publishers();
             const allPublisNamesAndIds = await publishers.getAllNamesAndIds();
 
@@ -213,11 +210,11 @@ module.exports = function(app) {
                     data: allPublisNamesAndIds
                 })
             }
-        }
+        })
     )
 
     app.get('/api/v1/translators/shorthand',
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             const translators = new Translators();
             const allTranslNamesAndIds = await translators.getAllNamesAndIds()
 
@@ -228,9 +225,10 @@ module.exports = function(app) {
                 })
             }
         })
+    )
 
     app.get('/api/v1/authors/shorthand', 
-        async function(req, res) {
+        buildHandler(async function(req, res) {
             const authors = new Authors();
             const allAuthorsNamesAndIds = await authors.getAllNamesAndIds()
 
@@ -241,11 +239,12 @@ module.exports = function(app) {
                 })
             }
         })
+    )
 
     app.delete('/api/v1/categories/:id', 
-        bodyParser.json(),
-        async function(req, res) {
-            const { id } = req.params;
+        buildHandler(async function(req, res) {
+            const id = req.string('id');
+
             const category = new Categories();
             const deletedCateg = await category.delete(id); 
 
@@ -262,13 +261,12 @@ module.exports = function(app) {
                     msg: `Category ins't exist`
                 })
             }
-        }
+        })
     )
 
     app.delete('/api/v1/authors/:id',
-        bodyParser.json(),
-        async function(req, res) {
-            const { id } = req.params;
+        buildHandler(async function(req, res) {
+            const id = req.string('id')
 
             const author = new Authors;
             const deletedAuthor = await author.delete(id);
@@ -287,11 +285,11 @@ module.exports = function(app) {
                 })
             }
         })
+    )
 
     app.delete('/api/v1/translators/:id', 
-        bodyParser.json(), 
-        async function(req, res) {
-            const { id } = req.params;
+        buildHandler(async function(req, res) {
+            const id = req.string('id')
 
             const translator = new Translators();
             const deletedTranslator = await translator.delete(id);
@@ -309,12 +307,12 @@ module.exports = function(app) {
                     msg: `The translator insn't exists`
                 })
             }
-    })
+        })
+    )
 
     app.delete('/api/v1/publishers/:id', 
-        bodyParser.json(), 
-        async function(req, res) {
-            const { id } = req.params;
+        buildHandler(async function(req, res) {
+            const id = req.string('id');
 
             const publisher = new Publishers();
             const deletedPublisher = await publisher.delete(id);
@@ -333,12 +331,15 @@ module.exports = function(app) {
                 })
             }
         })
+    )
 
     app.patch('/api/v1/categories/:id', 
         bodyParser.json(),
-        async function(req, res) {
-            const { id } = req.params;
-            const changes = req.body;
+        buildHandler(async function(req, res) {
+            req.json(req.body)
+
+            const id = req.string('id');
+            const changes = req.arg('changes');
 
             const category = new Categories();
             const updatedCateg = category.update(id, changes) ;
@@ -350,14 +351,16 @@ module.exports = function(app) {
                     msg: 'The category is updated'
                 })
             } 
-        }
+        })
     )
 
     app.patch('/api/v1/publishers/:id', 
         bodyParser.json(), 
-        async function(req, res) {
-            const { id } = req.params;
-            const changes = req.body;
+        buildHandler(async function(req, res) {
+            req.json(req.body)
+
+            const id = req.string('id');
+            const changes = req.arg('changes');
 
             const publisher = new Publishers();
             const updatedPubli = publisher.update(id, changes)
@@ -369,14 +372,16 @@ module.exports = function(app) {
                     msg: 'The publisher updated'
                 })
             }
-        }
+        })
     )
 
     app.patch('/api/v1/authors/:id', 
         bodyParser.json(), 
-        async function(req, res) {
-            const { id } = req.params;
-            const changes = req.body;
+        buildHandler(async function(req, res) {
+            req.json(req.body);
+
+            const id = req.string('id');
+            const changes = req.arg('changes');
 
             const author = new Authors();
             const updatedAuth = author.update(id, changes);
@@ -388,14 +393,16 @@ module.exports = function(app) {
                     msg: 'The authors updated'
                 })
             }
-        }
+        })
     )
 
     app.patch('/api/v1/translators/:id', 
         bodyParser.json(), 
-        async function(req, res) {
-            const { id } = req.params;
-            const changes = req.body;
+        buildHandler(async function(req, res) {
+            req.json(req.body);
+
+            const id = req.string('id');
+            const changes = req.arg('changes');
 
             const translator = new Translators();
             const updatedTransl = translator.update(id, changes);
@@ -407,6 +414,6 @@ module.exports = function(app) {
                     msg: 'The translator updated'
                 })
             }
-        }
+        })
     )
 }
