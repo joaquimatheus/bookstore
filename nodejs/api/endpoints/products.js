@@ -16,13 +16,12 @@ module.exports = function(app) {
             const name = req.string('name');
             const description = req.string('description');
 
-            const category = new Categories()
-            const categoryCreated = await category.createResource(name, description);
+            const category = await Categories.create({name, description});
 
-            if(categoryCreated) {
+            if(category) {
                 return res.status(201).json({
                     type: 'categories',
-                    categoryId: categoryCreated.id,
+                    categoryId: category.id,
                     msg: "created successfully"
                 })
             }
@@ -36,13 +35,12 @@ module.exports = function(app) {
             const name = req.string('name');
             const description = req.string('description');
 
-            const translator = new Translators()
-            const translatorCreated = await translator.createResource(name, description );
+            const translator = await Translators.create({name, description});
 
             if(translator) {
                 return res.status(201).json({
                     type: 'translators',
-                    translatorId: translatorCreated.id,
+                    translatorId: translator.id,
                     msg: "created successfully"
                 });
             }
@@ -56,17 +54,12 @@ module.exports = function(app) {
             const name = req.string('name');
             const description = req.string('description');
 
-            const author = new Authors();
-            const authorCreated = await author.createResource(
-                name, description
-            );
+            const author = await Authors.create({ name, description })
 
-            console.log(authorCreated)
-
-            if(authorCreated) {
+            if(author) {
                 return res.status(201).json({
                     type: 'authors',
-                    authorId: authorCreated.id,
+                    authorId: author.id,
                     msg: "created successfully"
                 });
             }
@@ -75,22 +68,21 @@ module.exports = function(app) {
     app.post('/api/v1/publishers', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
-            res.json(req.body);
+            req.json(req.body);
 
             const name = req.string('name');
             const description = req.string('description');
 
-            const publisher = new Publishers();
-            const publCreated = await publisher.createResource(name, description);
+            const publisher = await Publishers.create({ name, description })
 
-            if(publCreated) {
+            if(publisher) {
                 return res.status(201).json({
-                    type: 'publishers',
-                    publisherId: publCreated,
-                    msg: 'Publslished is created'
-                })
+                    type: 'authors',
+                    authorId: publisher.id,
+                    msg: "created successfully"
+                });
             }
-        }))
+        }));
 
     app.post('/api/v1/products', 
         bodyParser.json(),
@@ -131,13 +123,12 @@ module.exports = function(app) {
 
     app.get('/api/v1/categories', 
         buildHandler(async function(req, res) {
-            const categories = new Categories();
-            const catgNamesAndIds = await categories.getAll();
+            const categories = await Categories.findAll();
 
-            if(catgNamesAndIds) {
+            if(categories) {
                 res.status(200).json({
                     type: 'categories',
-                    data: catgNamesAndIds
+                    data: categories
                 });
             }    
         })
@@ -145,13 +136,12 @@ module.exports = function(app) {
 
     app.get('/api/v1/authors',
         buildHandler(async function(req, res) {
-            const authors = new Authors()
-            const authNamesAndIds = await authors.getAll();
+            const authors = await Authors.findAll();
 
-            if(authNamesAndIds) {
+            if(authors) {
                 res.status(200).json({
                     type: 'authors',
-                    data: authNamesAndIds
+                    data: authors
                 });
             }
         })
@@ -159,13 +149,12 @@ module.exports = function(app) {
 
     app.get('/api/v1/publishers', 
         buildHandler(async function(req, res) {
-            const publishers = new Publishers();
-            const publNamesAndIds = await publishers.getAll()
+            const publishers = await Publishers.findAll()
 
-            if(publNamesAndIds) {
+            if(publishers) {
                 res.status(200).json({
                     type: 'publishers',
-                    data: publNamesAndIds
+                    data: publishers                
                 })
             }
         })
@@ -173,13 +162,12 @@ module.exports = function(app) {
 
     app.get('/api/v1/translators', 
         buildHandler(async function(req, res) {
-            const translators = new Translators()
-            const translNamesAndIds = await translators.getAll()
+            const translators = await Translators.findAll()
 
-            if(translNamesAndIds) {
+            if(translators) {
                 res.status(200).json({
                     type: 'translators',
-                    data: translNamesAndIds
+                    data: translators
                 });
             }
         })
@@ -187,13 +175,15 @@ module.exports = function(app) {
 
     app.get('/api/v1/categories/shorthand', 
         buildHandler(async function(req, res) {
-            const categories = new Categories();
-            const allCatgNamesAndIds = await categories.getAllNamesAndIds()
+            const categories = 
+                await Categories.findAll({
+                    attributes: ['id', 'name']
+                })
 
-            if (allCatgNamesAndIds) {
+            if (categories) {
                 res.status(200).json({
                     type: 'categories',
-                    data: allCatgNamesAndIds
+                    data: categories 
                 })
             }
         })
@@ -201,13 +191,15 @@ module.exports = function(app) {
 
     app.get('/api/v1/publishers/shorthand',
         buildHandler(async function(req, res) {
-            const publishers = new Publishers();
-            const allPublisNamesAndIds = await publishers.getAllNamesAndIds();
+            const publishers = 
+                await Publishers.findAll({
+                    attributes: ['id', 'name']
+                });
 
-            if (allPublisNamesAndIds) {
+            if (publishers) {
                 res.status(200).json({
                     type: 'publishers',
-                    data: allPublisNamesAndIds
+                    data: publishers
                 })
             }
         })
@@ -215,13 +207,14 @@ module.exports = function(app) {
 
     app.get('/api/v1/translators/shorthand',
         buildHandler(async function(req, res) {
-            const translators = new Translators();
-            const allTranslNamesAndIds = await translators.getAllNamesAndIds()
+            const translators = await Translators.findAll({
+                attributes: ['id', 'name']
+            });
 
-            if (allTranslNamesAndIds) {
+            if (translators) {
                 res.status(200).json({
                     type: 'translators',
-                    data: allTranslNamesAndIds
+                    data: translators
                 })
             }
         })
@@ -229,13 +222,14 @@ module.exports = function(app) {
 
     app.get('/api/v1/authors/shorthand', 
         buildHandler(async function(req, res) {
-            const authors = new Authors();
-            const allAuthorsNamesAndIds = await authors.getAllNamesAndIds()
+            const author = await Authors.findAll({
+                attributes: ['id', 'name']
+            });
 
-            if (allAuthorsNamesAndIds) {
+            if (author) {
                 res.status(200).json({
                     type: 'authors',
-                    data: allAuthorsNamesAndIds
+                    data: author
                 })
             }
         })
@@ -245,10 +239,11 @@ module.exports = function(app) {
         buildHandler(async function(req, res) {
             const id = req.string('id');
 
-            const category = new Categories();
-            const deletedCateg = await category.delete(id); 
+            const category = await Categories.destroy({
+                where: { id }
+            })
 
-            if (deletedCateg) {
+            if (category) {
                 res.status(200).json({
                     type: 'categories',
                     categoryId: id,
@@ -268,10 +263,11 @@ module.exports = function(app) {
         buildHandler(async function(req, res) {
             const id = req.string('id')
 
-            const author = new Authors;
-            const deletedAuthor = await author.delete(id);
+            const authors = await Authors.destroy({
+                where: { id }
+            });
 
-            if (deletedAuthor) {
+            if (authors) {
                 res.status(200).json({
                     type: 'author',
                     authorId: id,
@@ -291,10 +287,11 @@ module.exports = function(app) {
         buildHandler(async function(req, res) {
             const id = req.string('id')
 
-            const translator = new Translators();
-            const deletedTranslator = await translator.delete(id);
+            const translators = Translators.destroy({
+                where: { id }
+            })
 
-            if (deletedTranslator) {
+            if (translators) {
                 res.status(200).json({
                     type: 'translator',
                     translatorID: id,
@@ -314,10 +311,11 @@ module.exports = function(app) {
         buildHandler(async function(req, res) {
             const id = req.string('id');
 
-            const publisher = new Publishers();
-            const deletedPublisher = await publisher.delete(id);
+            const publisher = await Publishers.destroy({
+                where: { id }
+            });
 
-            if (deletedPublisher) {
+            if (publisher) {
                 res.status(200).json({
                     type: 'publishers',
                     publisherId: id,
@@ -333,7 +331,7 @@ module.exports = function(app) {
         })
     )
 
-    app.patch('/api/v1/categories/:id', 
+    app.put('/api/v1/categories/:id', 
         bodyParser.json(),
         buildHandler(async function(req, res) {
             req.json(req.body)
@@ -341,10 +339,9 @@ module.exports = function(app) {
             const id = req.string('id');
             const changes = req.arg('changes');
 
-            const category = new Categories();
-            const updatedCateg = category.update(id, changes) ;
+            const category = Categories.update(changes, { where: {id} }) ;
 
-            if(updatedCateg) {
+            if(category) {
                 res.status(200).json({
                     type: 'categories',
                     categoryId: id,
@@ -354,7 +351,7 @@ module.exports = function(app) {
         })
     )
 
-    app.patch('/api/v1/publishers/:id', 
+    app.put('/api/v1/publishers/:id', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body)
@@ -362,10 +359,9 @@ module.exports = function(app) {
             const id = req.string('id');
             const changes = req.arg('changes');
 
-            const publisher = new Publishers();
-            const updatedPubli = publisher.update(id, changes)
+            const publisher = Publishers.update(changes, { where: {id}});
 
-            if (updatedPubli) {
+            if (publisher) {
                 res.status(200).json({
                     type: 'publishers',
                     publisherId: id,
@@ -375,7 +371,7 @@ module.exports = function(app) {
         })
     )
 
-    app.patch('/api/v1/authors/:id', 
+    app.put('/api/v1/authors/:id', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body);
@@ -383,10 +379,9 @@ module.exports = function(app) {
             const id = req.string('id');
             const changes = req.arg('changes');
 
-            const author = new Authors();
-            const updatedAuth = author.update(id, changes);
+            const author = Authors.update(changes, { where: { id }});
 
-            if (updatedAuth) {
+            if (author) {
                 res.status(200).json({
                     type: 'authors',
                     authorId: id,
@@ -396,7 +391,7 @@ module.exports = function(app) {
         })
     )
 
-    app.patch('/api/v1/translators/:id', 
+    app.put('/api/v1/translators/:id', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body);
@@ -404,10 +399,9 @@ module.exports = function(app) {
             const id = req.string('id');
             const changes = req.arg('changes');
 
-            const translator = new Translators();
-            const updatedTransl = translator.update(id, changes);
+            const translators = Translators.update(changes, { where: {id}});
 
-            if (updatedTransl) {
+            if (translators) {
                 res.status(200).json({
                     type: 'translator',
                     translatorId: id,
