@@ -10,6 +10,18 @@ function throwValidationError(msg) {
     throw error;
 }
 
+function getUiMessageFromException(ex) {
+    const message = ex.message || ex;
+    
+    if(ex.validationError || ex.statusCode) { return message; }
+
+    if(/Validation error/.test(message)) {
+        return 'duplicated. please, choose another'
+    }
+
+    return message;
+}
+
 const requestExtensions = {
     throwValidationError,
 
@@ -106,16 +118,19 @@ function buildHandler(handler) {
                 logger.error(ex);
             }
 
+            const uiMessage = getUiMessageFromException(ex);
             const statusCode = ex.statusCode || 500;
 
             res.status(statusCode).json({
                 error: statusCode === 500,
                 validationError: statusCode === 400,
-                message: ex.message,
+                message: uiMessage,
                 redirectUrl: ex.redirectUrl
             });
         }
     }
 }
+
+
 
 module.exports = { buildHandler };
