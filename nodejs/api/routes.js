@@ -14,8 +14,8 @@ module.exports = function(app) {
 
     const _get = app.get;
     const _post = app.post;
-    const _delete = app.delete
-    const _patch = app.patch
+    const _delete = app.delete;
+    const _put = app.put;
 
     app.post = function(route) {
         logger.info(`Binding route: {POST} ${route}`)
@@ -32,15 +32,15 @@ module.exports = function(app) {
         return _delete.apply(this, arguments);
     }
 
-    app.patch = function(route) {
-        logger.info(`Binding route: {PATCH} ${route}`)
-        return _patch.apply(this, arguments);
+    app.put = function(route) {
+        logger.info(`Binding route: {PUT} ${route}`)
+        return _put.apply(this, arguments);
     }
 
     require('./endpoints/products')(app);
 
     app.get = _get;
     app.post = _post;
-    app.delete = _delete
-    app.patch = _patch
+    app.delete = _delete;
+    app.patch = _put;
 }
