@@ -8,7 +8,7 @@ const Products = require('../../core/models/Products');
 const { buildHandler } = require('../utils');
 
 module.exports = function(app) {
-    app.post('/api/v1/categories', 
+    app.post('/api/v1/product-management/categories', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body) 
@@ -27,7 +27,7 @@ module.exports = function(app) {
             }
     }));
 
-    app.post('/api/v1/translators', 
+    app.post('/api/v1/product-management/translators', 
         bodyParser.json(),
         buildHandler(async function(req, res) {
             req.json(req.body);
@@ -46,7 +46,7 @@ module.exports = function(app) {
             }
         }));
 
-    app.post('/api/v1/authors', 
+    app.post('/api/v1/product-management/authors', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body);
@@ -65,7 +65,7 @@ module.exports = function(app) {
             }
         }));
 
-    app.post('/api/v1/publishers', 
+    app.post('/api/v1/product-management/publishers', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body);
@@ -78,24 +78,20 @@ module.exports = function(app) {
             if(publisher) {
                 return res.status(201).json({
                     type: 'authors',
-                    authorId: publisher.id,
+                    publisherId: publisher.id,
                     msg: "created successfully"
                 });
             }
         }));
 
-    app.post('/api/v1/products', 
+    app.post('/api/v1/product-management/products', 
         bodyParser.json(),
         buildHandler(async function(req, res) {
-            /*
-            const { name, description, category_id, author_id, translator_id, 
-                publishers_id, pages, language, price, link, 
-                isbn13, isbn10} = req.body;
-            */
+            const productObj = req.json(req.body);
 
-            req.json(req.body);
-
-            console.log(productObj);
+            for(key of Object.keys(productObj)) {
+                console.log(key)
+            }
 
             const product = await Products.create({
                 name: productObj.name,
@@ -121,7 +117,7 @@ module.exports = function(app) {
         }
     ))
 
-    app.get('/api/v1/categories', 
+    app.get('/api/v1/product-management/categories', 
         buildHandler(async function(req, res) {
             const categories = await Categories.findAll();
 
@@ -134,7 +130,7 @@ module.exports = function(app) {
         })
     )
 
-    app.get('/api/v1/authors',
+    app.get('/api/v1/product-management/authors',
         buildHandler(async function(req, res) {
             const authors = await Authors.findAll();
 
@@ -147,7 +143,7 @@ module.exports = function(app) {
         })
     )
 
-    app.get('/api/v1/publishers', 
+    app.get('/api/v1/product-management/publishers', 
         buildHandler(async function(req, res) {
             const publishers = await Publishers.findAll()
 
@@ -160,7 +156,7 @@ module.exports = function(app) {
         })
     )
 
-    app.get('/api/v1/translators', 
+    app.get('/api/v1/product-management/translators', 
         buildHandler(async function(req, res) {
             const translators = await Translators.findAll()
 
@@ -173,7 +169,7 @@ module.exports = function(app) {
         })
     )
 
-    app.get('/api/v1/categories/shorthand', 
+    app.get('/api/v1/product-management/categories/shorthand', 
         buildHandler(async function(req, res) {
             const categories = 
                 await Categories.findAll({
@@ -189,7 +185,7 @@ module.exports = function(app) {
         })
     )
 
-    app.get('/api/v1/publishers/shorthand',
+    app.get('/api/v1/product-management/publishers/shorthand',
         buildHandler(async function(req, res) {
             const publishers = 
                 await Publishers.findAll({
@@ -205,7 +201,7 @@ module.exports = function(app) {
         })
     )
 
-    app.get('/api/v1/translators/shorthand',
+    app.get('/api/v1/product-management/translators/shorthand',
         buildHandler(async function(req, res) {
             const translators = await Translators.findAll({
                 attributes: ['id', 'name']
@@ -220,7 +216,7 @@ module.exports = function(app) {
         })
     )
 
-    app.get('/api/v1/authors/shorthand', 
+    app.get('/api/v1/product-management/authors/shorthand', 
         buildHandler(async function(req, res) {
             const author = await Authors.findAll({
                 attributes: ['id', 'name']
@@ -235,7 +231,7 @@ module.exports = function(app) {
         })
     )
 
-    app.delete('/api/v1/categories/:id', 
+    app.delete('/api/v1/product-management/categories/:id', 
         buildHandler(async function(req, res) {
             const id = req.string('id');
 
@@ -259,7 +255,7 @@ module.exports = function(app) {
         })
     )
 
-    app.delete('/api/v1/authors/:id',
+    app.delete('/api/v1/product-management/authors/:id',
         buildHandler(async function(req, res) {
             const id = req.string('id')
 
@@ -283,7 +279,7 @@ module.exports = function(app) {
         })
     )
 
-    app.delete('/api/v1/translators/:id', 
+    app.delete('/api/v1/product-management/translators/:id', 
         buildHandler(async function(req, res) {
             const id = req.string('id')
 
@@ -307,7 +303,7 @@ module.exports = function(app) {
         })
     )
 
-    app.delete('/api/v1/publishers/:id', 
+    app.delete('/api/v1/product-management/publishers/:id', 
         buildHandler(async function(req, res) {
             const id = req.string('id');
 
@@ -331,7 +327,7 @@ module.exports = function(app) {
         })
     )
 
-    app.put('/api/v1/categories/:id', 
+    app.put('/api/v1/product-management/categories/:id', 
         bodyParser.json(),
         buildHandler(async function(req, res) {
             req.json(req.body)
@@ -351,7 +347,7 @@ module.exports = function(app) {
         })
     )
 
-    app.put('/api/v1/publishers/:id', 
+    app.put('/api/v1/product-management/publishers/:id', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body)
@@ -371,7 +367,7 @@ module.exports = function(app) {
         })
     )
 
-    app.put('/api/v1/authors/:id', 
+    app.put('/api/v1/product-management/authors/:id', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body);
@@ -391,7 +387,7 @@ module.exports = function(app) {
         })
     )
 
-    app.put('/api/v1/translators/:id', 
+    app.put('/api/v1/product-management/translators/:id', 
         bodyParser.json(), 
         buildHandler(async function(req, res) {
             req.json(req.body);
