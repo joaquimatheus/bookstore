@@ -6,6 +6,7 @@ const Publishers = require('../../core/models/Publishers');
 const Products = require('../../core/models/Products');
 
 const { buildHandler } = require('../utils');
+const V = require('argument-validator');
 
 module.exports = function(app) {
     app.post('/api/v1/product-management/categories', 
@@ -90,7 +91,9 @@ module.exports = function(app) {
             const productObj = req.json(req.body);
 
             for(key of Object.keys(productObj)) {
-                console.log(key)
+                if (V.isString(productObj[key]) == false) {
+                    return new Error('The arguments need to be all strings')
+                };
             }
 
             const product = await Products.create({
@@ -101,7 +104,7 @@ module.exports = function(app) {
                 translator_id: productObj.translator_id,
                 publisher_id: productObj.publisher_id,
                 pages: productObj.pages,
-                language: productObj.pages,
+                language: productObj.language,
                 price: productObj.price,
                 link: productObj.link,
                 isbn13: productObj.isbn13,
@@ -111,6 +114,7 @@ module.exports = function(app) {
             if(product) {
                 res.status(201).json({
                     type: 'products',
+                    productId: product.id,
                     msg: "created successfully"
                 })
             }
@@ -165,6 +169,19 @@ module.exports = function(app) {
                     type: 'translators',
                     data: translators
                 });
+            }
+        })
+    )
+
+    app.get('/api/v1/product-management/products',
+        buildHandler(async function(req, res) {
+            const products = await Products.findAll()
+
+            if(products) {
+                res.status(200).json({
+                    type: 'products',
+                    data: products
+                })
             }
         })
     )
@@ -226,6 +243,21 @@ module.exports = function(app) {
                 res.status(200).json({
                     type: 'authors',
                     data: author
+                })
+            }
+        })
+    )
+
+    app.get('/api/v1/product-management/products/shorthand',
+        buildHandler(async function(req, res) {
+            const product = await Products.findAll({
+                attributes: ['id', 'name']
+            });
+
+            if(product) {
+                res.status(200).json({
+                    type: 'products',
+                    data: product
                 })
             }
         })
@@ -327,6 +359,30 @@ module.exports = function(app) {
         })
     )
 
+    app.delete('/api/v1/product-management/products/:id', 
+        buildHandler(async function(req, res) {
+            const id = req.string('id');
+
+            const product = await Products.destroy({
+                where: { id }
+            });
+
+            if (product) {
+                res.status(200).json({
+                    type: 'products',
+                    productsId: id,
+                    msg: 'The products has been deleted'
+                })
+            } else {
+                res.status(404).json({
+                    type: 'Not found',
+                    productsId: id,
+                    msg: "The products isn't exists "
+                })
+            }
+        })
+    )
+
     app.put('/api/v1/product-management/categories/:id', 
         bodyParser.json(),
         buildHandler(async function(req, res) {
@@ -402,6 +458,26 @@ module.exports = function(app) {
                     type: 'translator',
                     translatorId: id,
                     msg: 'The translator updated'
+                })
+            }
+        })
+    )
+
+    app.put('/api/v1/product-management/products/:id',
+        bodyParser.json(),
+        buildHandler(async function(req, res) {
+            req.json(req.body);
+
+            const id = req.string('id');
+            const changes = req.arg('changes');
+
+            const product = Products.update(changes, { where: { id } });
+
+            if (product) {
+                res.status(200).json({
+                    type: 'products',
+                    productId: id,
+                    msg: 'The product updated'
                 })
             }
         })

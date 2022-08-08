@@ -1,31 +1,13 @@
 window.onload = async function () {
-    const domqs = document.querySelector.bind(document);
+    const { domqs, dropDownList, ajaxAdapter } = window.app;
 
     const shorthandApi = {
-        categories: 'http://localhost:3000/api/v1/categories/shorthand',
-        translators: 'http://localhost:3000/api/v1/translators/shorthand',
-        authors: 'http://localhost:3000/api/v1/authors/shorthand',
-        publishers: 'http://localhost:3000/api/v1/publishers/shorthand'
+        categories: 'product-management/categories/shorthand',
+        translators: 'product-management/translators/shorthand',
+        authors: 'product-management/authors/shorthand',
+        publishers: 'product-management/publishers/shorthand'
     }
 
-    function dropDownList(url, idSelector) {
-        const selectDrop = domqs(idSelector);
-
-        fetch(url)
-            .then((res) => {
-                return res.json();
-            })
-            .then((obj) => {
-                const { data } = obj
-                let output = "";
-                data.forEach(value => {
-                    output += `<option value="${value.id}">${value.name}</option>` 
-                })
-
-                selectDrop.innerHTML += output;
-            })
-            .catch((err) => console.error(err));
-    }
 
     function main() {
         dropDownList(shorthandApi.categories, '#categories')
@@ -34,5 +16,31 @@ window.onload = async function () {
         dropDownList(shorthandApi.publishers, '#publishers')
     }
 
-    main();
-}();
+    main()
+
+    domqs('form').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+
+        const formData = {
+            name: domqs('#name_book').value,
+            description: domqs('#description_book').value,
+            category_id: domqs('#categories').value,
+            publisher_id: domqs('#publishers').value,
+            author_id: domqs('#authors').value,
+            translator_id: domqs('#translators').value,
+            publishers: domqs('#publishers').value,
+            pages: domqs('#number_pages').value,
+            language: domqs('#language').value,
+            price: domqs('#price').value,
+            isbn10: domqs('#isbn10').value,
+            isbn13: domqs('#isbn13').value
+        };
+
+        await ajaxAdapter('POST', 'product-management/products', formData)
+            .then(async (res) => {
+                alert(`The product is created your id is ${res.productId}`);
+            })
+            .catch(async (res) => console.log(res));
+    });
+
+};
