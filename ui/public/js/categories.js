@@ -1,5 +1,3 @@
-console.log(window.app);
-
 window.onload = async function () {
     const { domqs, ajaxAdapter, showDataTables } = window.app;
 
@@ -11,12 +9,12 @@ window.onload = async function () {
             description: domqs("#description__input").value,
         };
 
-        await ajaxAdapter("POST", "categories", formData)
+        await ajaxAdapter("POST", "product-management/categories", formData)
             .then(async (res) => {
                 alert(`The category is created your id is ${res.categoryId}`);
             })
             .catch(async (res) => console.log(res));
     });
 
-    showDataTables("categories", "tbody");
+    showDataTables("product-management/categories", "tbody");
 };

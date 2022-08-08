@@ -1,5 +1,5 @@
 window.onload = () => {
-    const domqs = document.querySelector.bind(document);
+    const { domqs, ajaxAdapter, showDataTables } = window.app;
 
     domqs('form').addEventListener('submit', async (ev) => {
         ev.preventDefault();
@@ -9,16 +9,12 @@ window.onload = () => {
             description: domqs('#description__input').value
         }
 
-        await fetch('http://localhost:3000/publishers', {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            mode: 'cors',
-            method: "POST",
-            body: JSON.stringify(formData)
-        })
-        .then(async(res) => console.log(res) )
-        .catch(async(res) => console.log(res))
-    })
+        await ajaxAdapter("POST", 'product-management/publishers', formData)
+            .then( async (res) => {
+                alert(`The publisher is created your id is ${res.publisherId}`)
+            })
+            .catch(async (res) => console.log(res));
+    });
+
+    showDataTables('product-management/publishers', 'tbody');
 }
