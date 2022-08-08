@@ -40,3 +40,22 @@ window.app.showDataTables = async (url, el) => {
         })
         .catch((err) => console.error(err));
 };
+
+window.app.dropDownList= function(url, el) {
+    const selectdrop = window.app.domqs(el);
+
+    fetch(`${window.app.config.apiUrl}/${url}`)
+        .then((res) => {
+            return res.json();
+        })
+        .then((obj) => {
+            const { data } = obj
+            let output = "";
+            data.forEach(value => {
+                output += `<option value="${value.id}">${value.name}</option>` 
+            })
+
+            selectdrop.innerHTML += output;
+        })
+        .catch((err) => console.error(err));
+}
