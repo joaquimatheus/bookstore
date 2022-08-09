@@ -37,7 +37,7 @@ module.exports = function(app) {
         return _put.apply(this, arguments);
     }
 
-    require('./endpoints/products')(app);
+    require('./endpoints/products-management.js')(app);
 
     app.get = _get;
     app.post = _post;
