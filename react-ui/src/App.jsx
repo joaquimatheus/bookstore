@@ -1,9 +1,12 @@
+import './styles/root.css'
+
 import {
     BrowserRouter,
-    Router,
     Routes,
     Route
 } from 'react-router-dom';
+
+import SidebarHeader from './components/SidebarHeader';
 
 function HomePage() {
     return (
@@ -14,6 +17,7 @@ function HomePage() {
 function App() {
     return (<>
         <BrowserRouter>
+            <SidebarHeader />
             <Routes>
                 <Route path='/' element={ <HomePage /> }/>
             </Routes>
