@@ -1,0 +1,93 @@
+.side-nav-container {
+    background-color: var(--dark);
+    width: 300px;
+    height: 160vh;
+    position: relative;
+    color: var(--light);
+
+    transition: 0.4s;
+}
+
+.nav-upper, .nav-heading {
+    display: grid;
+}
+
+.side-nav-container-NX {
+    width: 85px;
+}
+
+.nav-heading {
+    grid-template-columns: 2fr, 1fr;
+    grid-template-rows: 1fr;
+    height: 75px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+}
+
+.nav-brand img {
+    width: 65px;
+    padding: 0 10px;
+}
+
+.toggle-button {
+    position: absolute;
+    right: 0;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    margin: auto -35px;
+    background-color: var(--primary);
+    border: 2px solid var(--light);
+    padding: 20px;
+    border-radius: 90px;
+    height: 71px;
+    width: 74px;
+}
+
+.toggle-button span {
+    display: block;
+    margin-top: 5px;
+    background-color: var(--light);
+    border-radius: 13px;
+    height: 4px;
+    width: 30px;
+
+    transition: 0.4s;
+}
+
+.toggle-button:hover span {
+    margin: auto;
+}
+
+.toggle-button-in:hover span:nth-child(1) {
+    width: 25px;
+    transform: translate(-3px, 8px) rotate(30deg);
+}
+
+.toggle-button-in:hover span:nth-child(2) {
+    display: none;
+}
+
+.toggle-button-in:hover span:nth-child(3) {
+    width: 25px;
+    transform: translate(-3px, -8px) rotate(-30deg);
+}
+
+.toggle-button-out:hover span:nth-child(1) {
+    width: 25px;
+    transform: translate(0, 8px) rotate(-30deg);
+}
+
+.toggle-button-out:hover span:nth-child(2) {
+    display: none;
+}
+
+.toggle-button-out:hover span:nth-child(3) {
+    width: 25px;
+    transform: translate(0, -8px) rotate(30deg);
+}
