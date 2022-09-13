@@ -3,16 +3,32 @@ import "../styles/sidebar.css";
 
 export default function SidebarHeader() {
     const [ isExpended, setExpendedState] = useState(false);
+    const menuItems = [
+        {
+            text: "Dashboard",
+            icon: 'icons/grid.svg',
+        },
+        {
+            text: "Manage Products",
+            icon: 'icons/pie-chart.svg',
+        },
+        {
+            text: "Orders",
+            icon: 'icons/shopping-cart.svg'
+        },
+    ];
 
     return (
         <header>
             <nav className={isExpended ? "side-nav-container" : "side-nav-container side-nav-container-NX"}>
                 <div className="nav-upper">
                     <div className="nav-heading">
-                        <div className="nav-brand">
-                            <img src="/icons/Logo.svg" alt="logo icon" />
-                            <h2>Bookstore</h2>
-                        </div>
+                        { isExpended && (
+                            <div className="nav-brand">
+                                <img src="/icons/Logo.svg" alt="logo icon" />
+                                <h2>Bookstore</h2>
+                            </div>
+                        )}
                         <button
                             className={
                                 isExpended
@@ -26,6 +42,15 @@ export default function SidebarHeader() {
                             <span></span>
                             <span></span>
                         </button>
+                    </div>
+                    <div className="nav-menu">
+                        {menuItems.map(({text, icon}) => 
+                        <a className={isExpended ? "menu-item" : "menu-item menu-item-NX"} href={"#" + icon}>
+                                <img src={icon} alt="" />
+                                {isExpended && <p>{text}</p>}
+                                {!isExpended && <div className="tooltip">{text}</div>}
+                            </a> 
+                        )}
                     </div>
                 </div>
             </nav>
