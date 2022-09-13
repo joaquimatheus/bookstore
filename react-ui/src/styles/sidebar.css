@@ -8,7 +8,10 @@
     transition: 0.4s;
 }
 
-.nav-upper, .nav-heading {
+.nav-upper, 
+.nav-heading, 
+.nav-menu, 
+.menu-item {
     display: grid;
 }
 
@@ -90,4 +93,43 @@
 .toggle-button-out:hover span:nth-child(3) {
     width: 25px;
     transform: translate(0, -8px) rotate(30deg);
+}
+
+.nav-menu {
+    grid-template-rows: repeat(3, 1fr);
+    margin-top: 50px;
+}
+
+.menu-item {
+    height: 57px;
+    width: 16em;
+    display: flex;
+    align-items: center;
+    color: var(--light);
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: auto 20px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.menu-item-NX {
+    margin: auto;
+    width: 3em;
+}
+
+.menu-item:hover {
+    background-color: var(--primary);
+}
+
+.menu-item img {
+    width: 3em;
+    padding: 8px;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    left: 99%;
+    bottom: 80%;
 }
