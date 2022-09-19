@@ -6,20 +6,18 @@ import {
     Route
 } from 'react-router-dom';
 
-import SidebarHeader from './components/SidebarHeader';
+import Home from './pages/Home';
 
-function HomePage() {
-    return (
-        <h1>Hello</h1>
-    )
-}
+import SidebarHeader from './components/SidebarHeader';
 
 function App() {
     return (<>
         <BrowserRouter>
             <SidebarHeader />
             <Routes>
-                <Route path='/' element={ <HomePage /> }/>
+                <Route path='/management' element={ <Home /> }>
+                    <Route path='products' element={ <Home /> }/>
+                </Route>
             </Routes>
         </BrowserRouter>
     </>);
