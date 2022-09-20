@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+
 import "../styles/sidebar.css";
+
 
 
 export default function SidebarHeader() {
@@ -56,7 +58,7 @@ export default function SidebarHeader() {
             <div className="nav-footer">
                 { isExpended && (
                     <div className="nav-details">
-                        <img src="icons/admin-avatar.svg" alt="adm" />
+                        <img src="/icons/admin-avatar.svg" alt="adm" />
                         <div className="nav-footer-info">
                             <p className="nav-footer-user-name">Zaken7</p>
                             <p className="nav-footer-user-position">Store Admin</p>
