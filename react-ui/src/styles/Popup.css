@@ -13,14 +13,40 @@
 
 .popup-inner {
     position: relative;
-    padding: 32px;
+    padding: 2em;
     width: 100%;
     max-width: 640px;
-    background-color: #8ac926;
+    background-color: #fdf0d5;
+    border-radius: 1.3em;
 }
 
 .popup-inner .close-btn {
     position: absolute;
     top: 16px;
     right: 16px;
+    padding: 0.5em;
+    background-color: #c1121f;
+    border: none;
+    border-radius: 0.5em;
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background-color: #a4161a;
+}
+
+.popup-name {
+    margin: 0.5em 0;
+}
+
+.popup-name > span {
+    font-weight: 500;
+    font-style: italic; 
+}
+
+.popup-description > span {
+    font-weight: 500;
+    font-style: italic;
 }
