@@ -1,5 +1,7 @@
 import { useState } from "react";
 import TableProduct from "./TableProduct";
+import Popup from './Popup';
+import axios from 'axios';
 
 function FormCreate(props) {
     const initialState = {name: '', description: ''}
@@ -15,8 +17,11 @@ function FormCreate(props) {
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
 
-        console.log('*** handleSubmit', data)
+        const response = axios.post(
+            'http://localhost:4000/api/v1/product-management/categories', data)
     }
+
+    const [buttonPopup, setButtonPopup] = useState(false);
 
     console.log('--- formvalues', formValues);
     return (
@@ -47,9 +52,14 @@ function FormCreate(props) {
                         ></textarea>
                     </div>
                     <div className="form-group align-center">
-                        <button>Submit</button>
+                        <button onClick={() => setButtonPopup(true)}>Submit</button>
                     </div>
                 </form>
+                <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
+                    <h3> You created a Item of {props.title}</h3>
+                    <p>Name: {formValues.name}</p>
+                    <p>Description: {formValues.description}</p>
+                </Popup>
 
                 <TableProduct title={props.title} />
             </div>
