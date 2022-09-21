@@ -2,16 +2,27 @@ import { useState } from "react";
 import TableProduct from "./TableProduct";
 
 function FormCreate(props) {
-    const [FormValues, setFormValues] = useState({});
+    const initialState = {name: '', description: ''}
+    const [formValues, setFormValues] = useState(initialState);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(`handleInput ${name, value}`)
+        setFormValues({...formValues, [name]: value})
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+
+        console.log('*** handleSubmit', data)
+    }
+
+    console.log('--- formvalues', formValues);
     return (
         <>
             <div className="content-product">
-                <form>
+                <form onSubmit={handleSubmit}>
                     <h2>{props.title}</h2>
                     <div className="form-group">
                         <label for="name">Name:</label>
@@ -20,6 +31,7 @@ function FormCreate(props) {
                             type="text" 
                             name="name" 
                             onChange={handleInputChange}
+                            value={formValues.name}
                             required />
                     </div>
                     <div className="form-group">
@@ -30,6 +42,7 @@ function FormCreate(props) {
                             column="20"
                             rows="10"
                             onChange={handleInputChange}
+                            value={formValues.description}
                             required
                         ></textarea>
                     </div>
