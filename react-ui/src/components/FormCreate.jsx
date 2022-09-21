@@ -56,9 +56,9 @@ function FormCreate(props) {
                     </div>
                 </form>
                 <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-                    <h3> You created a Item of {props.title}</h3>
-                    <p>Name: {formValues.name}</p>
-                    <p>Description: {formValues.description}</p>
+                    <h3> You created a item of {props.title}</h3>
+                    <p className="popup-name">Name: <span>{formValues.name}</span></p>
+                    <p className="popup-description">Description: <span>{formValues.description}</span></p>
                 </Popup>
 
                 <TableProduct title={props.title} />
