@@ -18,7 +18,7 @@ function FormCreate(props) {
         const data = Object.fromEntries(formData);
 
         const response = axios.post(
-            'http://localhost:4000/api/v1/product-management/categories', data)
+            `http://localhost:4000/api/v1/product-management/${props.endpoint}`, data)
     }
 
     const [buttonPopup, setButtonPopup] = useState(false);
@@ -61,7 +61,7 @@ function FormCreate(props) {
                     <p className="popup-description">Description: <span>{formValues.description}</span></p>
                 </Popup>
 
-                <TableProduct title={props.title} />
+                <TableProduct title={props.title} endpoint={props.endpoint} />
             </div>
         </>
     );
