@@ -4,7 +4,7 @@ import FormCreate from '../components/FormCreate';
 function CreateViewCategories() {
     return (
         <main className='container center'>
-            <FormCreate title="Categories" />
+            <FormCreate title="Categories" endpoint="categories" />
         </main>
     )
 }
