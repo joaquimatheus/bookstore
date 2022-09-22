@@ -1,4 +1,18 @@
+import { useEffect, useState } from 'react'
+import axios from 'axios';
+
 function TableProduct(props) {
+    const [items, setItems] = useState(null);
+
+    useEffect(() => {
+        axios.get(`http://localhost:4000/api/v1/product-management/${props.endpoint}`)
+            .then((response) => {
+                let { data } = response.data;
+                console.log(data)
+                setItems(data);
+            })
+    }, [])
+    
     return (
         <table className="table-product">
             <caption>All {props.title}</caption>
@@ -11,8 +25,14 @@ function TableProduct(props) {
                 </tr>
             </thead>
             <tbody>
+                {items.map((item) => (
                 <tr>
+                    <td>{item.name}</td>
+                    <td>{item.description}</td>
+                    <td>{item.createdAt}</td>
+                    <td>{item.updatedAt}</td>
                 </tr>
+                ))}
             </tbody>
         </table>
     )
