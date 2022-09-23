@@ -4,7 +4,7 @@ import FormCreate from '../components/FormCreate';
 function CreateViewAuthors() {
     return (
         <main className="container center">
-            <FormCreate title="Authors" />
+            <FormCreate title="Authors" endpoint="authors" />
         </main>
     )
 }
