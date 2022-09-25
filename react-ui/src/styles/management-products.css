@@ -26,15 +26,18 @@ body {
     align-items: flex-start;
     background-color: #eaeaea;
     box-shadow: 10px 10px #1e1b18;
+    gap: 1.5em;
 }
 
 .item-product {
-    border-right: 1px solid black;
+    border-right: 3px solid black;
+    border-left: 3px solid black;
     padding: 0 1em;
 }
 
-.item-product:nth-last-child(1) {
-    border: none;
+.heading-part {
+    display: flex;
+    justify-content: center;
 }
 
 .content-product {
@@ -68,6 +71,30 @@ body {
     padding: 0.8em;
     font-size: 1.2em;
     resize: none;
+}
+
+.options-details {
+    display: flex;
+    justify-content: space-around;
+    padding: 1em;
+    gap: 0.5em;
+}
+
+.item-details {
+    border: 3px solid black;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    background-color: #fffaff;
+}
+
+.item-details > label {
+    display: block;
+    font-size: 1.5em;
+}
+
+.item-details > select {
+    width: 200px;
+    padding: 0.5em;
 }
 
 .align-center {
