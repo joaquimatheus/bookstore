@@ -13,6 +13,7 @@ import CreateViewCategories from './pages/CreateViewCategories';
 import CreateViewPublishers from './pages/CreateViewPublishers';
 import CreateViewAuthors from './pages/CreateViewAuthors';
 import CreateViewTranslators from './pages/CreateViewTranslators';
+import CreateViewProducts from './pages/CreateViewProducts';
 
 import SidebarHeader from './components/SidebarHeader';
 
@@ -35,6 +36,9 @@ function App() {
                 />
                 <Route exact path="/management/products/translators"
                     element={ <CreateViewTranslators /> }
+                />
+                <Route exact path="/management/products/product" 
+                    element={ <CreateViewProducts /> }
                 />
             </Routes>
         </BrowserRouter>
