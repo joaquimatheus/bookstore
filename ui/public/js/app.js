@@ -1,5 +1,5 @@
 window.app = {
-    config: { apiUrl: "http://localhost:3000/api/v1" },
+    config: { apiUrl: "http://localhost:4000/api/v1" },
     domqs: document.querySelector.bind(document),
 };
 

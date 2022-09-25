@@ -6,20 +6,40 @@ import {
     Route
 } from 'react-router-dom';
 
-import SidebarHeader from './components/SidebarHeader';
+import Home from './pages/Home';
+import Management from './pages/Management';
+import ManagementProduct from './pages/ManagementProducts';
+import CreateViewCategories from './pages/CreateViewCategories';
+import CreateViewPublishers from './pages/CreateViewPublishers';
+import CreateViewAuthors from './pages/CreateViewAuthors';
+import CreateViewTranslators from './pages/CreateViewTranslators';
+import CreateViewProducts from './pages/CreateViewProducts';
 
-function HomePage() {
-    return (
-        <h1>Hello</h1>
-    )
-}
+import SidebarHeader from './components/SidebarHeader';
 
 function App() {
     return (<>
         <BrowserRouter>
             <SidebarHeader />
             <Routes>
-                <Route path='/' element={ <HomePage /> }/>
+                <Route path="/" index element={ <Home /> } />
+                <Route path='/management' element={ <Management />} />
+                <Route exact path='/management/products' element={ <ManagementProduct /> }/>
+                <Route exact path="/management/products/categories" 
+                    element={ <CreateViewCategories /> } 
+                />
+                <Route exact path="/management/products/publishers"
+                    element={ <CreateViewPublishers /> }
+                />
+                <Route exact path="/management/products/authors"
+                    element={ <CreateViewAuthors /> }
+                />
+                <Route exact path="/management/products/translators"
+                    element={ <CreateViewTranslators /> }
+                />
+                <Route exact path="/management/products/product" 
+                    element={ <CreateViewProducts /> }
+                />
             </Routes>
         </BrowserRouter>
     </>);

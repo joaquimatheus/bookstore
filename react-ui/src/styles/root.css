@@ -3,8 +3,10 @@
 
 :root {
     --primary: #55717e;
+    --secondary: #EAEDED;
     --dark: #061b28;
     --gray: #757388;
+    --light-gray: #eaeaea;
     --light: #fff;
 
     --font-heebo: 'Heebo', sans-serif;
