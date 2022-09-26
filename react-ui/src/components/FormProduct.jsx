@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
+import DropDownList from './DropDownList'
 
 function FormProduct(props) {
     const initialState = {
@@ -59,69 +59,43 @@ function FormProduct(props) {
                         <div className="options-details">
                             <div className="item-details">
                                 <label htmlFor="category">Category</label>
-                                <select
-                                    name="category"
-                                    onChange={handleInputChange}
-                                    value={formValues.category}
-                                    id="category"
+                                <DropDownList 
+                                    name="Category" 
+                                    handleChange={handleInputChange} 
+                                    stateValue={formValues.category}
+                                    endpoint="categories"
                                     required
-                                >
-                                    <option value disabled selected>
-                                        Category
-                                    </option>
-                                    <option value="philosophy">
-                                        Philosophy
-                                    </option>
-                                    <option value="physics">Physics</option>
-                                </select>
+                                />
                             </div>
                             <div className="item-details">
                                 <label htmlFor="author">Author</label>
-                                <select
-                                    id="author"
-                                    name="author"
-                                    onChange={handleInputChange}
-                                    value={formValues.author}
+                                <DropDownList 
+                                    name="Author"
+                                    handleChange={handleInputChange}
+                                    stateValue={formValues.author}
+                                    endpoint="authors"
                                     required
-                                >
-                                    <option disabled value selected>
-                                        Author
-                                    </option>
-                                    <option value="Nietschez">Nietschez</option>
-                                    <option value="socrates">Socrates</option>
-                                </select>
+                                />
                             </div>
                             <div className="item-details">
                                 <label htmlFor="author">Publisher</label>
-                                <select
-                                    id="publisher"
-                                    name="publisher"
-                                    onChange={handleInputChange}
-                                    value={formValues.publisher}
+                                <DropDownList 
+                                    name="Publisher"
+                                    handleChange={handleInputChange}
+                                    stateValue={formValues.publisher}
+                                    endpoint="publishers"
                                     required
-                                >
-                                    <option value disabled selected>
-                                        Publisher
-                                    </option>
-                                    <option value="lapele">Lapele</option>
-                                    <option value="delta">delta</option>
-                                </select>
+                                />
                             </div>
                             <div className="item-details">
                                 <label htmlFor="author">Translator</label>
-                                <select
-                                    id="translator"
-                                    name="translator"
-                                    onChange={handleInputChange}
-                                    value={formValues.translator}
+                                <DropDownList 
+                                    name="Translator"
+                                    handleChange={handleInputChange}
+                                    stateValue={formValues.translator}
+                                    endpoint="authors"
                                     required
-                                >
-                                    <option value disabled selected>
-                                        Translator
-                                    </option>
-                                    <option>Pascal</option>
-                                    <option>Minus</option>
-                                </select>
+                                />
                             </div>
                         </div>
                     </div>
