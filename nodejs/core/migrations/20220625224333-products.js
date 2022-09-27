@@ -48,9 +48,13 @@ module.exports = {
               type: Sequelize.INTEGER,
               allowNull: false
           },
-          language: {
-              type: Sequelize.TEXT,
-              allowNull: false
+          language_id: {
+              type: Sequelize.INTEGER,
+              allowNull: false,
+              references: {
+                  model: 'languages',
+                  key: 'id'
+              }
           },
           price: {
               type: Sequelize.DECIMAL,
