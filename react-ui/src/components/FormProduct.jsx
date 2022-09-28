@@ -9,6 +9,8 @@ function FormProduct(props) {
         author: "",
         publisher: "",
         translator: "",
+        pages: "",
+        languages: ""
     };
 
     const [formValues, setFormValues] = useState(initialState);
@@ -97,6 +99,31 @@ function FormProduct(props) {
                                     required
                                 />
                             </div>
+                            <div className="item-details">
+                                <label htmlFor="pages">Number of Pages</label>
+                                <input
+                                    id="pages"
+                                    type="number"
+                                    name="pages"
+                                    onChange={handleInputChange}
+                                    value={formValues.pages}
+                                    required
+                                />
+                            </div>
+                            <div className="item-details">
+                                <label htmlFor="Languages">Languages</label>
+                                <DropDownList 
+                                    name="Languages"
+                                    handleChange={handleInputChange}
+                                    stateValue={formValues.languages}
+                                    endpoint="languages"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="options-details">
                         </div>
                     </div>
                 </form>
