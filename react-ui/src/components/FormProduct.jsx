@@ -10,7 +10,10 @@ function FormProduct(props) {
         publisher: "",
         translator: "",
         pages: "",
-        languages: ""
+        languages: "",
+        price: "",
+        isbn10: "",
+        isbn13: ""
     };
 
     const [formValues, setFormValues] = useState(initialState);
@@ -100,6 +103,16 @@ function FormProduct(props) {
                                 />
                             </div>
                             <div className="item-details">
+                                <label htmlFor="Languages">Languages</label>
+                                <DropDownList 
+                                    name="Languages"
+                                    handleChange={handleInputChange}
+                                    stateValue={formValues.languages}
+                                    endpoint="languages"
+                                    required
+                                />
+                            </div>
+                            <div className="item-details">
                                 <label htmlFor="pages">Number of Pages</label>
                                 <input
                                     id="pages"
@@ -111,12 +124,35 @@ function FormProduct(props) {
                                 />
                             </div>
                             <div className="item-details">
-                                <label htmlFor="Languages">Languages</label>
-                                <DropDownList 
-                                    name="Languages"
-                                    handleChange={handleInputChange}
-                                    stateValue={formValues.languages}
-                                    endpoint="languages"
+                                <label htmlFor="price">Price</label>
+                                <input
+                                    id="price"
+                                    type="number"
+                                    name="price"
+                                    onChange={handleInputChange}
+                                    value={formValues.price}
+                                    required
+                                />
+                            </div>
+                            <div className="item-details">
+                                <label htmlFor="isbn10">ISBN10</label>
+                                <input
+                                    id="isbn10"
+                                    type="text"
+                                    name="isbn10"
+                                    onChange={handleInputChange}
+                                    value={formValues.isbn10}
+                                    required
+                                />
+                            </div>
+                            <div className="item-details">
+                                <label htmlFor="isbn13">ISBN13</label>
+                                <input
+                                    id="isbn13"
+                                    type="text"
+                                    name="isbn13"
+                                    onChange={handleInputChange}
+                                    value={formValues.isbn13}
                                     required
                                 />
                             </div>
