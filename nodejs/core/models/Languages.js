@@ -9,8 +9,8 @@ class Languages extends Model {}
 
 Languages.init({
     id: {
-        type: DataTypes.INTEGER
-        primaryKey: true
+        type: DataTypes.INTEGER,
+        primaryKey: true,
         autoIncrement: true,
     },
     name: {
