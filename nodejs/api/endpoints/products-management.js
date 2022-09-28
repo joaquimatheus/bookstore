@@ -4,6 +4,7 @@ const Translators = require('../../core/models/Translators');
 const Authors = require('../../core/models/Authors');
 const Publishers = require('../../core/models/Publishers');
 const Products = require('../../core/models/Products');
+const Languages = require('../../core/models/Languages');
 
 const { buildHandler } = require('../utils');
 const V = require('argument-validator');
@@ -81,6 +82,25 @@ module.exports = function(app) {
                     type: 'authors',
                     publisherId: publisher.id,
                     msg: "created successfully"
+                });
+            }
+        }));
+
+    app.post('/api/v1/product-management/languages', 
+        bodyParser.json(),
+        buildHandler(async function(req, res) {
+            req.json(req.body);
+
+            const name = req.string('name');
+            const acronym = req.string('acronym');
+
+            const language = await Languages.create({ name, acronym });
+
+            if(language) {
+                return res.status(201).json({
+                    type: 'language',
+                    languageId: language.id,
+                    msg: 'created successfully'
                 });
             }
         }));
@@ -173,6 +193,18 @@ module.exports = function(app) {
         })
     )
 
+    app.get('/api/v1/product-management/languages', 
+        buildHandler(async function(req, res) {
+            const languages = await Languages.findAll()
+
+            if(languages) {
+                res.status(200).json({
+                    type: 'languages',
+                    data: languages
+                })
+            }
+    }))
+
     app.get('/api/v1/product-management/products',
         buildHandler(async function(req, res) {
             const products = await Products.findAll()
@@ -243,6 +275,21 @@ module.exports = function(app) {
                 res.status(200).json({
                     type: 'authors',
                     data: author
+                })
+            }
+        })
+    )
+
+    app.get('/api/v1/product-management/languages/shorthand', 
+        buildHandler(async function(req, res) {
+            const languages = await Languages.findAll({
+                attributes: ['id', 'name']
+            });
+
+            if (languages) {
+                res.status(200).json({
+                    type: 'languages',
+                    data: languages
                 })
             }
         })
@@ -359,6 +406,30 @@ module.exports = function(app) {
         })
     )
 
+    app.delete('/api/v1/product-management/languages/:id',
+        buildHandler(async function(req, res) {
+            const id = req.string('id');
+
+            const language = await Languages.destroy({
+                where: { id }
+            });
+
+            if (language) {
+                res.status(200).json({
+                    type: 'languages',
+                    languageId: id,
+                    msg: `The language has been deleted`
+                })
+            } else {
+                res.status(404).json({
+                    type: 'Not found',
+                    languageId: id,
+                    msg: `The language isn't exists`
+                })
+            }
+        })
+    )
+
     app.delete('/api/v1/product-management/products/:id', 
         buildHandler(async function(req, res) {
             const id = req.string('id');
@@ -458,6 +529,26 @@ module.exports = function(app) {
                     type: 'translator',
                     translatorId: id,
                     msg: 'The translator updated'
+                })
+            }
+        })
+    )
+
+    app.put('/api/v1/product-management/languages/:id',
+        bodyParser.json(),
+        buildHandler(async function(req, res) {
+            req.json(req.body);
+
+            const id = req.string('id');
+            const changes = req.arg('changes');
+
+            const languages = Languages.update(changes, { where: {id} })
+
+            if (languages) {
+                res.status(200).json({
+                    type: 'languages',
+                    languagesId: id,
+                    msg: 'The language updated'
                 })
             }
         })
